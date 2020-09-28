@@ -90,6 +90,26 @@ public class OrderMenu extends JFrame {
 				menueffect(0);				
 			}
 		});
+		
+		menucategory[1].setText("식사류");
+		
+		menucategory[1].addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menueffect(1);				
+			}
+		});
+		
+		menucategory[2].setText("음료");
+		
+		menucategory[2].addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menueffect(2);				
+			}
+		});
 	}
 	
 	
@@ -121,21 +141,38 @@ public class OrderMenu extends JFrame {
 			}
 			
 		});
+		
+		detailmenu[1].addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {//마우스가 해당 컴포넌트를 클릭했을 때
+				// TODO Auto-generated method stub
+				if(!detailmenu[1].getText().equals("")) {
+					if(e.getClickCount()==1) {	//한 번 클릭할 때를 말함(getClickCount는 마우스 클릭 횟수 가져오기)
+						//printMenu(0);
+					}
+				}
+			}
+			
+		});
+		
+		detailmenu[2].addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {//마우스가 해당 컴포넌트를 클릭했을 때
+				// TODO Auto-generated method stub
+				if(!detailmenu[2].getText().equals("")) {
+					if(e.getClickCount()==1) {	//한 번 클릭할 때를 말함(getClickCount는 마우스 클릭 횟수 가져오기)
+						//printMenu(0);
+					}
+				}
+			}
+			
+		});
+		
 	}
 	
-	
-//	public void printMenu(int se) {//메뉴 장바구니에 넣는 메서드
-//		String inputstr[] = new String[2];
-//		int temp = 0;
-//		
-//		//String.valueof(문자열로)
-//		cnt[temp][se]++;
-//		if(cnt[temp][se]==1 && !menu[temp][se].equals("")) {
-//			inputstr[0]=menu[temp][se];
-//			inputstr[1]=String.valueOf(cnt[temp][se]));
-//			
-//		}
-//	}
+
 	
 	public void menueffect(int num) {
 		detailmenu[0].setText("<html><body>" + menu[num][0] + "<br>"+ price[num][0]+ "</body></html>");
