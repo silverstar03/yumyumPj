@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 public class OrderMenu extends JFrame {
 	
@@ -29,6 +30,10 @@ public class OrderMenu extends JFrame {
 	
 	private String[][] menu;
 	private String[][] price;
+	
+	private DefaultTableModel model;
+	
+	private boolean[] flag = new boolean[5];
 	
 	
 	public static void main(String[] args) {
@@ -135,7 +140,7 @@ public class OrderMenu extends JFrame {
 				// TODO Auto-generated method stub
 				if(!detailmenu[0].getText().equals("")) {
 					if(e.getClickCount()==1) {	//한 번 클릭할 때를 말함(getClickCount는 마우스 클릭 횟수 가져오기)
-						//printMenu(0);
+						tableshow(0);
 					}
 				}
 			}
@@ -149,7 +154,7 @@ public class OrderMenu extends JFrame {
 				// TODO Auto-generated method stub
 				if(!detailmenu[1].getText().equals("")) {
 					if(e.getClickCount()==1) {	//한 번 클릭할 때를 말함(getClickCount는 마우스 클릭 횟수 가져오기)
-						//printMenu(0);
+						tableshow(1);
 					}
 				}
 			}
@@ -160,10 +165,9 @@ public class OrderMenu extends JFrame {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {//마우스가 해당 컴포넌트를 클릭했을 때
-				// TODO Auto-generated method stub
 				if(!detailmenu[2].getText().equals("")) {
 					if(e.getClickCount()==1) {	//한 번 클릭할 때를 말함(getClickCount는 마우스 클릭 횟수 가져오기)
-						//printMenu(0);
+						tableshow(2);
 					}
 				}
 			}
@@ -191,6 +195,31 @@ public class OrderMenu extends JFrame {
 		detailmenu[13].setText("<html><body>" + menu[num][13] + "<br>"+ price[num][13]+ "</body></html>");
 //		detailmenu[14].setText("<html><body>" + menu[num][14] + "<br>"+ price[num][14]+ "</body></html>");
 		
+	}
+	public void tableshow(int se){
+		String inputstr[]= new String[2];
+		int temp=0;
+		for(int i=0;i<5;i++){
+			if(flag[i]){
+				temp=i;
+			}
+		}
+		cnt[temp][se]++;
+		if(cnt[temp][se]==1&& !menu[temp][se].equals("")){
+			try{
+				inputstr[0]= menu[temp][se];
+				inputstr[1]= String.valueOf(cnt[temp][se]);
+				model.addRow(inputstr);
+				num[temp][se] = model.getRowCount()-1;
+				sumprice += Integer.parseInt(price[temp][se].trim());
+			}
+			catch(Exception aa){
+			}
+		}
+		else{
+			model.setValueAt(cnt[temp][se],num[temp][se],1);
+			sumprice += Integer.parseInt(price[temp][se].trim());
+		}	
 	}
 	
 }
