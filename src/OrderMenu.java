@@ -220,7 +220,7 @@ public class OrderMenu extends JFrame {
 			model.setValueAt(cnt[temp][se],num[temp][se],1);
 			sumprice += Integer.parseInt(price[temp][se].trim());
 		}	
-	}
+	}//¡÷ºÆ
 	
 }
 
