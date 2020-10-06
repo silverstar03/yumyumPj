@@ -140,7 +140,7 @@ public class OrderMenu extends JFrame {
 				// TODO Auto-generated method stub
 				if(!detailmenu[0].getText().equals("")) {
 					if(e.getClickCount()==1) {	//한 번 클릭할 때를 말함(getClickCount는 마우스 클릭 횟수 가져오기)
-						tableshow(0);
+						//tableshow(0);
 					}
 				}
 			}
@@ -154,7 +154,7 @@ public class OrderMenu extends JFrame {
 				// TODO Auto-generated method stub
 				if(!detailmenu[1].getText().equals("")) {
 					if(e.getClickCount()==1) {	//한 번 클릭할 때를 말함(getClickCount는 마우스 클릭 횟수 가져오기)
-						tableshow(1);
+						//tableshow(1);
 					}
 				}
 			}
@@ -167,7 +167,7 @@ public class OrderMenu extends JFrame {
 			public void mouseClicked(MouseEvent e) {//마우스가 해당 컴포넌트를 클릭했을 때
 				if(!detailmenu[2].getText().equals("")) {
 					if(e.getClickCount()==1) {	//한 번 클릭할 때를 말함(getClickCount는 마우스 클릭 횟수 가져오기)
-						tableshow(2);
+						//tableshow(2);
 					}
 				}
 			}
@@ -196,31 +196,33 @@ public class OrderMenu extends JFrame {
 //		detailmenu[14].setText("<html><body>" + menu[num][14] + "<br>"+ price[num][14]+ "</body></html>");
 		
 	}
-	public void tableshow(int se){
-		String inputstr[]= new String[2];
-		int temp=0;
-		for(int i=0;i<5;i++){
-			if(flag[i]){
-				temp=i;
-			}
-		}
-		cnt[temp][se]++;
-		if(cnt[temp][se]==1&& !menu[temp][se].equals("")){
-			try{
-				inputstr[0]= menu[temp][se];
-				inputstr[1]= String.valueOf(cnt[temp][se]);
-				model.addRow(inputstr);
-				num[temp][se] = model.getRowCount()-1;
-				sumprice += Integer.parseInt(price[temp][se].trim());
-			}
-			catch(Exception aa){
-			}
-		}
-		else{
-			model.setValueAt(cnt[temp][se],num[temp][se],1);
-			sumprice += Integer.parseInt(price[temp][se].trim());
-		}	
-	}
+//	public void tableshow(int se){
+//		String inputstr[]= new String[2];
+//		int temp=0;
+//		for(int i=0;i<5;i++){
+//			if(flag[i]){
+//				temp=i;
+//			}
+//		}
+//		cnt[temp][se]++;
+//		if(cnt[temp][se]==1&& !menu[temp][se].equals("")){
+//			try{
+//				inputstr[0]= menu[temp][se];
+//				inputstr[1]= String.valueOf(cnt[temp][se]);
+//				model.addRow(inputstr);
+//				num[temp][se] = model.getRowCount()-1;
+//				sumprice += Integer.parseInt(price[temp][se].trim());
+//			}
+//			catch(Exception aa){
+//			}
+//		}
+//		else{
+//			model.setValueAt(cnt[temp][se],num[temp][se],1);
+//			sumprice += Integer.parseInt(price[temp][se].trim());
+//		}	
+//	}
+	
+	//제발 성공해라
 	
 }
 
