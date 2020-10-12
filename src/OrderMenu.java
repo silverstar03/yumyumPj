@@ -222,7 +222,6 @@ public class OrderMenu extends JFrame {
 //		}	
 //	}
 	
-	//제발 성공해라
 	
 }
 
