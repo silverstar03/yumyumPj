@@ -1,66 +1,151 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import java.awt.Window.Type;
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JTextPane;
 
-public class Table_main extends JPanel {
-	private JButton table1;
-	private JButton table2;
-	private JButton table3;
-	private JButton table4;
-	private JButton table5;
-	private JButton table6;
-	private JButton table7;
-	private JButton table8;
+import java.beans.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+import javax.swing.JTextField;
+//database ver.
+public class Table_main {
 	
-	private Table win;
-	
-	public Table_main(Table win) {
-		this.win=win;
-		setLayout(null);
-		table1=new JButton("테이블1");
-		table1.setSize(178,161);
-		table1.setLocation(45,57);
-		add(table1);
-		
-		table2=new JButton("테이블2");
-		table2.setBounds(254,57,178,161);
-		add(table2);
-		
-		table3=new JButton("테이블3");
-		table3.setBounds(465,57,178,161);
-		add(table3);
-		
-		table4=new JButton("테이블4");
-		table4.setBounds(670, 57, 178, 161);
-		add(table4);
-		
-		table5=new JButton("테이블5");
-		table5.setBounds(31, 303, 178, 161);
-		add(table5);
-		
-		table6=new JButton("테이블6");
-		table6.setBounds(254, 303, 178, 161);
-		add(table6);
-		
-		table7=new JButton("테이블7");
-		table7.setBounds(465, 303, 178, 161);
-		add(table7);
-		
-		table8=new JButton("테이블8");
-		table8.setBounds(670,303,178,161);
-		add(table8);
-		
-		table1.addActionListener(new MyaddActionListener());
+	private JFrame frame;
+	protected Object frame2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Table_main window = new Table_main();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Table_main() {
+		initialize();
 	}
 	
-	class MyaddActionListener implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) { //버튼눌리면 패널02 호출
-			//win.change("Counter");
-			
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		frame = new JFrame();
+		frame.setType(Type.UTILITY);
+		frame.setTitle("냠냠쩝쩝");
+		frame.setBounds(100, 100, 761, 520);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		try {
+			//DB연동
+			Class.forName("com.mysql.jdbc.Driver");
+			String url="jdbc:mysql://localhost/yumyum1";
+			//mysql을 아예 내가 올려주면 은별이가 pull받으면 될 것 같음.
+			conn=DriverManager.getConnection(url,"gogi1","2209");
+			System.out.println("연결 성공");
+			int num=1;
+			String sql="select * from meatmenu where gid = "+num+";";
+			pstmt=conn.prepareStatement(sql);
+			//이 문장을 실행함으로써 결과값을 rs에 넣어준다.
+			rs=pstmt.executeQuery(sql);
+			while (rs.next()) {
+				String meat_name=rs.getString("meat_name");
+				int price=rs.getInt("meat_price");
+				
+				System.out.println("고기 종류: "+meat_name+" / 가격: "+price);
+				
+				JLabel label = new JLabel("가격 : ");
+				label.setAlignmentX(100);
+				label.setAlignmentY(400);
+				
+				JLabel pricet1 = new JLabel("");
+				pricet1.setText(Integer.toString(price));
+				
+				JButton button1 = new JButton("테이블 1");
+				button1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						//버튼을 누르면 다음 패널로 넘어가욤
+						
+					}
+				});
+				button1.setBounds(29, 47, 147, 127);
+				frame.getContentPane().add(button1);
+				button1.add(label);
+				button1.add(pricet1);
+				
+				JButton button2 = new JButton("테이블 2");
+				button2.setBounds(215, 47, 147, 127);
+				frame.getContentPane().add(button2);
+		
+				JButton button3 = new JButton("테이블 3");
+				button3.setBounds(397, 47, 147, 127);
+				frame.getContentPane().add(button3);
+		
+				JButton button4 = new JButton("테이블 4");
+				button4.setBounds(582, 47, 147, 127);
+				frame.getContentPane().add(button4);
+		
+				JButton button5 = new JButton("테이블 5");
+				button5.setBounds(29, 247, 147, 127);
+				frame.getContentPane().add(button5);
+		
+				JButton button6 = new JButton("테이블 6");
+				button6.setBounds(215, 247, 147, 127);
+				frame.getContentPane().add(button6);
+		
+				JButton button7 = new JButton("테이블 7");
+				button7.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+					}
+				});
+				button7.setBounds(397, 247, 147, 127);
+				frame.getContentPane().add(button7);
+		
+				JButton button8 = new JButton("테이블 8");
+				button8.setBounds(582, 247, 147, 127);
+				frame.getContentPane().add(button8);
+		
+				JButton checkbtn = new JButton("매출확인");
+				checkbtn.setBounds(609, 420, 120, 27);
+				frame.getContentPane().add(checkbtn);
+				}
+			conn.close();
+		}catch(ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패");
+		}catch(SQLException se) {
+			System.out.println("에러: "+se);
+		}
+		finally {
+			try {
+				if(conn!=null && !conn.isClosed()) {
+					conn.close();
+				}
+				if(pstmt!=null) try {pstmt.close();} catch(SQLException se) {}
+			}catch(SQLException se) {
+				se.printStackTrace();
+			}
 		}
 	}
 }
