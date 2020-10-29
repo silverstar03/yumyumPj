@@ -6,6 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -179,21 +182,34 @@ public class OrderMenu extends JFrame {
 
 	
 	public void menueffect(int num) {
-		detailmenu[0].setText("<html><body>" + menu[num][0] + "<br>"+ price[num][0]+ "</body></html>");
-		detailmenu[1].setText("<html><body>" + menu[num][1] + "<br>"+ price[num][1]+ "</body></html>");
-		detailmenu[2].setText("<html><body>" + menu[num][2] + "<br>"+ price[num][2]+ "</body></html>");
-		detailmenu[3].setText("<html><body>" + menu[num][3] + "<br>"+ price[num][3]+ "</body></html>");
-		detailmenu[4].setText("<html><body>" + menu[num][4] + "<br>"+ price[num][4]+ "</body></html>");
-		detailmenu[5].setText("<html><body>" + menu[num][5] + "<br>"+ price[num][5]+ "</body></html>");
-		detailmenu[6].setText("<html><body>" + menu[num][6] + "<br>"+ price[num][6]+ "</body></html>");
-		detailmenu[7].setText("<html><body>" + menu[num][7] + "<br>"+ price[num][7]+ "</body></html>");
-		detailmenu[8].setText("<html><body>" + menu[num][8] + "<br>"+ price[num][8]+ "</body></html>");
-		detailmenu[9].setText("<html><body>" + menu[num][9] + "<br>"+ price[num][9]+ "</body></html>");
-		detailmenu[10].setText("<html><body>" + menu[num][10] + "<br>"+ price[num][10]+ "</body></html>");
-		detailmenu[11].setText("<html><body>" + menu[num][11] + "<br>"+ price[num][11]+ "</body></html>");
-		detailmenu[12].setText("<html><body>" + menu[num][12] + "<br>"+ price[num][12]+ "</body></html>");
-		detailmenu[13].setText("<html><body>" + menu[num][13] + "<br>"+ price[num][13]+ "</body></html>");
-//		detailmenu[14].setText("<html><body>" + menu[num][14] + "<br>"+ price[num][14]+ "</body></html>");
+		
+//		try {
+//			Class.forName("com.mysql.jdbc.Driver");
+//			String url = "jdbc:mysql://localhost/yumyum1";
+//			Connection conn = DriverManager.getConnection(url,"gogi1","2203");
+//			System.out.println("연결 성공");
+//			String sql = "select * from meatmenu";
+			
+			
+			detailmenu[0].setText("<html><body>" + menu[num][0] + "<br>"+ price[num][0]+ "</body></html>");
+			detailmenu[1].setText("<html><body>" + menu[num][1] + "<br>"+ price[num][1]+ "</body></html>");
+			detailmenu[2].setText("<html><body>" + menu[num][2] + "<br>"+ price[num][2]+ "</body></html>");
+			detailmenu[3].setText("<html><body>" + menu[num][3] + "<br>"+ price[num][3]+ "</body></html>");
+			detailmenu[4].setText("<html><body>" + menu[num][4] + "<br>"+ price[num][4]+ "</body></html>");
+			detailmenu[5].setText("<html><body>" + menu[num][5] + "<br>"+ price[num][5]+ "</body></html>");
+			detailmenu[6].setText("<html><body>" + menu[num][6] + "<br>"+ price[num][6]+ "</body></html>");
+			detailmenu[7].setText("<html><body>" + menu[num][7] + "<br>"+ price[num][7]+ "</body></html>");
+			detailmenu[8].setText("<html><body>" + menu[num][8] + "<br>"+ price[num][8]+ "</body></html>");
+			detailmenu[9].setText("<html><body>" + menu[num][9] + "<br>"+ price[num][9]+ "</body></html>");
+			detailmenu[10].setText("<html><body>" + menu[num][10] + "<br>"+ price[num][10]+ "</body></html>");
+			detailmenu[11].setText("<html><body>" + menu[num][11] + "<br>"+ price[num][11]+ "</body></html>");
+			detailmenu[12].setText("<html><body>" + menu[num][12] + "<br>"+ price[num][12]+ "</body></html>");
+			detailmenu[13].setText("<html><body>" + menu[num][13] + "<br>"+ price[num][13]+ "</body></html>");
+//			detailmenu[14].setText("<html><body>" + menu[num][14] + "<br>"+ price[num][14]+ "</body></html>");
+//			}
+		
+		
+		
 		
 	}
 //	public void tableshow(int se){

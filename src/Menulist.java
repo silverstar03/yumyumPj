@@ -1,4 +1,6 @@
-
+/*
+ * mysql -ugogi1 -p2203 yumyum1
+ */
 public class Menulist {
 	public String[][] menu(){
 		String[][] menu = new String[][]{
