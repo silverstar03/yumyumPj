@@ -72,7 +72,6 @@ public class OrderMenu extends JFrame {
 		menu();
 		detailedMenu();
 
-		
 	}
 	
 	public void menu() {

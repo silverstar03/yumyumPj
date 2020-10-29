@@ -1,69 +1,51 @@
-import java.awt.EventQueue;
 import javax.swing.JFrame;
-import java.awt.Window.Type;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
 import javax.swing.JTextField;
 //database ver.
 public class Table_main {
 	
+	/*frame을 extends로 바꾸고 패널 만들기
+	 * 변수 밖으로 빼기*/
+	
 	private JFrame frame;
-	protected Object frame2;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Table_main window = new Table_main();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+			Table_main window = new Table_main();
+			window.frame.setVisible(true);
 	}
 
-	/**
-	 * Create the application.
-	 */
+
 	public Table_main() {
 		initialize();
 	}
-	
-	/**
-	 * Initialize the contents of the frame.
-	 */
+
 	private void initialize() {
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		frame = new JFrame();
-		frame.setType(Type.UTILITY);
 		frame.setTitle("냠냠쩝쩝");
 		frame.setBounds(100, 100, 761, 520);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setLocationRelativeTo(null);	//창이 가운데에서 실행
 		
 		try {
 			//DB연동
 			Class.forName("com.mysql.jdbc.Driver");
 			String url="jdbc:mysql://localhost/yumyum1";
 			//mysql을 아예 내가 올려주면 은별이가 pull받으면 될 것 같음.
-			conn=DriverManager.getConnection(url,"gogi1","2209");
+			conn=DriverManager.getConnection(url,"gogi1","2203");
 			System.out.println("연결 성공");
 			int num=1;
 			String sql="select * from meatmenu where gid = "+num+";";
@@ -76,12 +58,12 @@ public class Table_main {
 				
 				System.out.println("고기 종류: "+meat_name+" / 가격: "+price);
 				
-				JLabel label = new JLabel("가격 : ");
-				label.setAlignmentX(100);
-				label.setAlignmentY(400);
-				
-				JLabel pricet1 = new JLabel("");
-				pricet1.setText(Integer.toString(price));
+				JLabel label = new JLabel();
+//				label.setAlignmentX(0);
+//				label.setAlignmentY(0);
+				label.setBounds(10, 10, 147, 30);
+
+				label.setText("가격 : " + Integer.toString(price));
 				
 				JButton button1 = new JButton("테이블 1");
 				button1.addActionListener(new ActionListener() {
@@ -93,7 +75,6 @@ public class Table_main {
 				button1.setBounds(29, 47, 147, 127);
 				frame.getContentPane().add(button1);
 				button1.add(label);
-				button1.add(pricet1);
 				
 				JButton button2 = new JButton("테이블 2");
 				button2.setBounds(215, 47, 147, 127);
@@ -116,10 +97,6 @@ public class Table_main {
 				frame.getContentPane().add(button6);
 		
 				JButton button7 = new JButton("테이블 7");
-				button7.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-					}
-				});
 				button7.setBounds(397, 247, 147, 127);
 				frame.getContentPane().add(button7);
 		
