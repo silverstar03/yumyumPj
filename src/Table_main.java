@@ -41,13 +41,13 @@ public class Table_main extends JFrame {
 		PreparedStatement pstmt = null;
 		ResultSet rs=null;
 		setTitle("냠냠쩝쩝");
-		setBounds(100,100,761,520);
+		setSize(761,520);
 		setLocationRelativeTo(null);	//창이 가운데에서 실행
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			String url="jdbc:mysql://localhost/yumyum1";
 			//mysql 접근 database,테이블 이름,비밀번호
-			conn=DriverManager.getConnection(url,"gogi1","2209");
+			conn=DriverManager.getConnection(url,"gogi1","2203");
 			System.out.println("연결 성공");
 			//gid 몇번째 고기인지 선택 => 메뉴에서 버튼을 선택하면 그 아이디가 넘어간다.
 			int num=1;
@@ -63,14 +63,16 @@ public class Table_main extends JFrame {
 				jp.setLayout(null);
 				System.out.println("고기 종류: "+meat_name+" / 가격: "+price);
 				price1=new JLabel();
-				price1.setBounds(10, 10, 147, 30);
+				price1.setBounds(5, 5, 147, 20);
+				price1.setAlignmentX(0);
+				price1.setAlignmentY(0);//둘다 0이면 맨 위
 				price1.setText("가격 : " + Integer.toString(price));
 				
 				table1 = new JButton("테이블 1");
 				table1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						//버튼을 누르면 다음 패널로 넘어가욤
-						
+						new OrderMenu();
 					}
 				});
 				table1.setBounds(29, 47, 147, 127);

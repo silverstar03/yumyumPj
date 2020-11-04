@@ -5,10 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.sql.Connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.PreparedStatement; 
+import java.sql.ResultSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -31,30 +32,29 @@ public class OrderMenu extends JFrame {
 	private int[][] num = new int[3][15];
 	private int sumprice = 0;
 	
-	private String[][] menu;
-	private String[][] price;
+//	private String[][] menu;
+//	private String[][] price;
 	
 	private DefaultTableModel model;
 	
 	private boolean[] flag = new boolean[5];
 	
+	private Connection conn;
+	private PreparedStatement pstmt;
+	private ResultSet rs;
+	
 	
 	public static void main(String[] args) {
 
-			OrderMenu frame = new OrderMenu();
-			frame.setVisible(true);	//창을 화면에 나타냄
+			new OrderMenu();
 		
 	}
 		
 	public OrderMenu() {
-		orderMenu2Frame();
-		this.getContentPane().repaint();	//컴포넌트 재배치(새로고침 개념)
-	}
-	
-	public void orderMenu2Frame() {
 		
+		this.getContentPane().repaint();	//컴포넌트 재배치(새로고침 개념)
 		setTitle("주문 등록 화면");
-		setSize(1100, 900);
+		setSize(1101, 682);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setLocationRelativeTo(null);
@@ -65,22 +65,22 @@ public class OrderMenu extends JFrame {
 		title_label.setBounds(448, 2, 187, 60);
 		getContentPane().add(title_label);
 		
-		Menulist ml = new Menulist();
-		this.menu = ml.menu();
-		this.price = ml.price();
+//		Menulist ml = new Menulist();
+//		this.menu = ml.menu();
+//		this.price = ml.price();
 		
 		menu();
-		detailedMenu();
-
+		order();
 	}
 	
+	
 	public void menu() {
-		 
-		menu_panel.setBounds(490, 114, 600, 84);
+		
+		menu_panel.setBounds(490, 72, 600, 84);
 		menu_panel.setBackground(Color.LIGHT_GRAY);
 		menu_panel.setLayout(new GridLayout(1,5));
 		getContentPane().add(menu_panel);
-		
+
 		for (int i = 0; i<4; i++) {
 			menu_panel.add(menucategory[i] = new JButton(""));
 			
@@ -89,19 +89,19 @@ public class OrderMenu extends JFrame {
 		}
 		
 		menucategory[0].setText("고기류");
-		
+			
 		menucategory[0].addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menueffect(0);				
-			}
-		});
-		
+				}
+			});
+			
 		menucategory[1].setText("식사류");
 		
 		menucategory[1].addActionListener(new ActionListener() {
-			
+				
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				menueffect(1);				
@@ -120,9 +120,9 @@ public class OrderMenu extends JFrame {
 	}
 	
 	
-	public void detailedMenu() {
+	public void order() {
 		
-		detail_panel.setBounds(490, 201, 600, 297);
+		detail_panel.setBounds(490, 159, 600, 297);
 		detail_panel.setBackground(Color.WHITE);
 		detail_panel.setLayout(new GridLayout(3,5));
 		getContentPane().add(detail_panel);
@@ -181,63 +181,57 @@ public class OrderMenu extends JFrame {
 
 	
 	public void menueffect(int num) {
-		
-//		try {
-//			Class.forName("com.mysql.jdbc.Driver");
-//			String url = "jdbc:mysql://localhost/yumyum1";
-//			Connection conn = DriverManager.getConnection(url,"gogi1","2203");
-//			System.out.println("연결 성공");
-//			String sql = "select * from meatmenu";
+		conn = null;
+		pstmt = null;
+		rs = null;
+		String sql = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
+			String url = "jdbc:mysql://localhost/yumyum1";
+			conn = DriverManager.getConnection(url,"gogi1","2203");
+			//System.out.println("연결 성공");
 			
-			
-			detailmenu[0].setText("<html><body>" + menu[num][0] + "<br>"+ price[num][0]+ "</body></html>");
-			detailmenu[1].setText("<html><body>" + menu[num][1] + "<br>"+ price[num][1]+ "</body></html>");
-			detailmenu[2].setText("<html><body>" + menu[num][2] + "<br>"+ price[num][2]+ "</body></html>");
-			detailmenu[3].setText("<html><body>" + menu[num][3] + "<br>"+ price[num][3]+ "</body></html>");
-			detailmenu[4].setText("<html><body>" + menu[num][4] + "<br>"+ price[num][4]+ "</body></html>");
-			detailmenu[5].setText("<html><body>" + menu[num][5] + "<br>"+ price[num][5]+ "</body></html>");
-			detailmenu[6].setText("<html><body>" + menu[num][6] + "<br>"+ price[num][6]+ "</body></html>");
-			detailmenu[7].setText("<html><body>" + menu[num][7] + "<br>"+ price[num][7]+ "</body></html>");
-			detailmenu[8].setText("<html><body>" + menu[num][8] + "<br>"+ price[num][8]+ "</body></html>");
-			detailmenu[9].setText("<html><body>" + menu[num][9] + "<br>"+ price[num][9]+ "</body></html>");
-			detailmenu[10].setText("<html><body>" + menu[num][10] + "<br>"+ price[num][10]+ "</body></html>");
-			detailmenu[11].setText("<html><body>" + menu[num][11] + "<br>"+ price[num][11]+ "</body></html>");
-			detailmenu[12].setText("<html><body>" + menu[num][12] + "<br>"+ price[num][12]+ "</body></html>");
-			detailmenu[13].setText("<html><body>" + menu[num][13] + "<br>"+ price[num][13]+ "</body></html>");
-//			detailmenu[14].setText("<html><body>" + menu[num][14] + "<br>"+ price[num][14]+ "</body></html>");
+			if(num == 0) {
+				sql = "select * from meatmenu";
+			}
+//			else if(num == 1) {
+//				sql = "select * from "
 //			}
-		
-		
-		
+			
+			pstmt = conn.prepareStatement(sql);	//java statement 생성
+			rs = pstmt.executeQuery(sql);	//쿼리 execute, 객체 형성
+			
+			while(rs.next()) {
+				if(num == 0) {					
+					for (int i = 1; i<=15; i++) {
+						sql = "select * from meatmenu where gid =" +i+";";
+						detailmenu[i-1].setText("<html><body>" + rs.getString("meat_name") + "<br>"+ rs.getInt("meat_price")+ "</body></html>");
+						System.out.println(rs.getString("meat_name")+rs.getInt("meat_price"));
+					}
+				}
+			}
+		}catch(ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패");
+		}catch(SQLException se) {
+			System.out.println("에러: "+se);
+		}
+		finally {
+			try {
+				if(conn!=null && !conn.isClosed()) {
+					conn.close();
+				}
+				if(pstmt!=null) try {pstmt.close();} catch(SQLException se) {}
+			}catch(SQLException se) {
+				se.printStackTrace();
+			}
+		}
+	}
+	
+	
+	//고객이 주문한 메뉴들 화면에 출력
+	public void printMenu(){
 		
 	}
-//	public void tableshow(int se){
-//		String inputstr[]= new String[2];
-//		int temp=0;
-//		for(int i=0;i<5;i++){
-//			if(flag[i]){
-//				temp=i;
-//			}
-//		}
-//		cnt[temp][se]++;
-//		if(cnt[temp][se]==1&& !menu[temp][se].equals("")){
-//			try{
-//				inputstr[0]= menu[temp][se];
-//				inputstr[1]= String.valueOf(cnt[temp][se]);
-//				model.addRow(inputstr);
-//				num[temp][se] = model.getRowCount()-1;
-//				sumprice += Integer.parseInt(price[temp][se].trim());
-//			}
-//			catch(Exception aa){
-//			}
-//		}
-//		else{
-//			model.setValueAt(cnt[temp][se],num[temp][se],1);
-//			sumprice += Integer.parseInt(price[temp][se].trim());
-//		}	
-//	}
-	
-	
 }
 
 
