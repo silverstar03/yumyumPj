@@ -65,7 +65,7 @@ public class Table_main extends JFrame {
 				price1=new JLabel();
 				price1.setBounds(5, 5, 147, 20);
 				price1.setAlignmentX(0);
-				price1.setAlignmentY(0);//둘다 0이면 맨 위
+				price1.setAlignmentY(50);//둘다 0이면 맨 위
 				price1.setText("가격 : " + Integer.toString(price));
 				
 				table1 = new JButton("테이블 1");
@@ -73,6 +73,7 @@ public class Table_main extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						//버튼을 누르면 다음 패널로 넘어가욤
 						new OrderMenu();
+						setVisible(false);
 					}
 				});
 				table1.setBounds(29, 47, 147, 127);
@@ -101,6 +102,11 @@ public class Table_main extends JFrame {
 
 				check_maechul = new JButton("매출확인");
 				check_maechul.setBounds(609, 420, 120, 27);
+				check_maechul.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						new Pay();
+					}
+				});
 				
 				jp.add(table1); 
 				jp.add(table2); jp.add(table3); jp.add(table4);

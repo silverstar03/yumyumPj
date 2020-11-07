@@ -12,7 +12,6 @@ public class Pay extends JFrame{
  * Calculate() : 받을 돈, 받은 돈, 거스름 돈 등을 계산하는 메소드
  * calResult() : 계산된 결과를 보여주는 메소드
  */
-	
 	public Pay() {
 		
 	}
