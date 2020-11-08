@@ -1,5 +1,9 @@
+
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,11 +11,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Table_main extends JFrame {
+	//정말로 프로그램 종료를 할 것인지 아닌지 확인
+	private JDialog checkOut;
+	//private JDialog choose; //주문할건지 결제한건지 선택
 	private JPanel jp;
 	
 	//테이블 8개
@@ -25,8 +33,13 @@ public class Table_main extends JFrame {
 	private JButton table8;
 	//매출확인하는 버튼 
 	private JButton check_maechul;
+	private JButton LogOut; //프로그램종료
+	//프로그램을 종료하시겠습니까? Jdialog checkOut에서 쓰이는 버튼
+	private JButton yes;
+	private JButton no;
 	//글자 
 	private JLabel price1;
+	private JLabel answer; //로그아웃 하시겠습니까?
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -47,7 +60,7 @@ public class Table_main extends JFrame {
 			Class.forName("com.mysql.jdbc.Driver");
 			String url="jdbc:mysql://localhost/yumyum1";
 			//mysql 접근 database,테이블 이름,비밀번호
-			conn=DriverManager.getConnection(url,"gogi1","2203");
+			conn=DriverManager.getConnection(url,"gogi1","2209");
 			System.out.println("연결 성공");
 			//gid 몇번째 고기인지 선택 => 메뉴에서 버튼을 선택하면 그 아이디가 넘어간다.
 			int num=1;
@@ -62,22 +75,22 @@ public class Table_main extends JFrame {
 				jp=new JPanel();
 				jp.setLayout(null);
 				System.out.println("고기 종류: "+meat_name+" / 가격: "+price);
-				price1=new JLabel();
-				price1.setBounds(5, 5, 147, 20);
-				price1.setAlignmentX(0);
-				price1.setAlignmentY(50);//둘다 0이면 맨 위
-				price1.setText("가격 : " + Integer.toString(price));
+//				price1=new JLabel();
+//				price1.setBounds(5, 5, 147, 20);
+//				price1.setAlignmentX(0);
+//				price1.setAlignmentY(50);//둘다 0이면 맨 위
+//				price1.setText("가격 : " + Integer.toString(price));
 				
 				table1 = new JButton("테이블 1");
 				table1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						//버튼을 누르면 다음 패널로 넘어가욤
-						new OrderMenu();
-						setVisible(false);
+						new Choose();
+						//setVisible(false);
 					}
 				});
 				table1.setBounds(29, 47, 147, 127);
-				table1.add(price1);
+				//table1.add(price1);
 				
 				table2 = new JButton("테이블 2");
 				table2.setBounds(215, 47, 147, 127);
@@ -101,17 +114,44 @@ public class Table_main extends JFrame {
 				table8.setBounds(582, 247, 147, 127);
 
 				check_maechul = new JButton("매출확인");
-				check_maechul.setBounds(609, 420, 120, 27);
+				check_maechul.setBounds(609, 410, 120, 37);
 				check_maechul.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						new SalesCheck();
 					}
 				});
 				
-				jp.add(table1); jp.add(table2); jp.add(table3); jp.add(table4);
+				//프로그램 종료 확인하는 dialog
+				LogOut=new JButton("프로그램 종료");
+				LogOut.setBounds(480, 410, 120, 37);
+				
+				
+				jp.add(table1); 
+				jp.add(table2); jp.add(table3); jp.add(table4);
 				jp.add(table5); jp.add(table6); jp.add(table7); jp.add(table8);
-				jp.add(check_maechul);
+				jp.add(check_maechul); jp.add(LogOut);
 				add(jp);
+				
+				checkOut = new JDialog(this,"프로그램 종료",true);
+				checkOut.setSize(316,191);
+				checkOut.setLayout(null);
+				
+				answer = new JLabel("프로그램을 종료하시겠습니까?",JLabel.CENTER);
+				answer.setBounds(41,27,226,56);
+				answer.setFont(new Font("나눔바른고딕",Font.PLAIN,17));
+				
+				yes=new JButton("Yes");
+				yes.setBounds(39, 95, 115, 35);
+				no = new JButton("No");
+				no.setBounds(160, 95, 115, 35);
+				checkOut.add(answer);
+				checkOut.add(yes);
+				checkOut.add(no);
+				checkOut.setVisible(false);
+				LogOut.addActionListener(new OutActionListener());
+				//Dialog끝
+				
+				//choose 다이얼로그
 				
 				setVisible(true);
 			}
@@ -132,5 +172,36 @@ public class Table_main extends JFrame {
 			}
 		}
 	}
+	
+	//다이얼로그 창 주문인지 결제인지 선택
+
+	class OutActionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getSource()==LogOut) {
+				checkOut.setLocationRelativeTo(null);
+				checkOut.setVisible(true);
+				yes.addActionListener(new checkOutListener());
+				no.addActionListener(new checkOutListener());
+			}
+		}
+		
+	}
+	
+	class checkOutListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if(ae.getSource()==yes) {
+				System.exit(0);
+			}else if(ae.getSource()==no) {
+				checkOut.setVisible(false);
+			}
+			
+		}
+	}
+	
+	
 
 }
