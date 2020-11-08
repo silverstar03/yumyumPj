@@ -108,8 +108,7 @@ public class Table_main extends JFrame {
 					}
 				});
 				
-				jp.add(table1); 
-				jp.add(table2); jp.add(table3); jp.add(table4);
+				jp.add(table1); jp.add(table2); jp.add(table3); jp.add(table4);
 				jp.add(table5); jp.add(table6); jp.add(table7); jp.add(table8);
 				jp.add(check_maechul);
 				add(jp);
