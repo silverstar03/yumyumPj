@@ -47,7 +47,7 @@ public class Table_main extends JFrame {
 			Class.forName("com.mysql.jdbc.Driver");
 			String url="jdbc:mysql://localhost/yumyum1";
 			//mysql 접근 database,테이블 이름,비밀번호
-			conn=DriverManager.getConnection(url,"gogi1","2209");
+			conn=DriverManager.getConnection(url,"gogi1","2203");
 			System.out.println("연결 성공");
 			//gid 몇번째 고기인지 선택 => 메뉴에서 버튼을 선택하면 그 아이디가 넘어간다.
 			int num=1;
