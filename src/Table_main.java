@@ -104,7 +104,7 @@ public class Table_main extends JFrame {
 				check_maechul.setBounds(609, 420, 120, 27);
 				check_maechul.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						new Pay();
+						new SalesCheck();
 					}
 				});
 				

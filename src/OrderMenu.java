@@ -1,7 +1,7 @@
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.sql.PreparedStatement; 
 import java.sql.ResultSet;
 
@@ -43,6 +44,7 @@ public class OrderMenu extends JFrame {
 	
 	private DefaultTableModel model;
 	private JScrollPane scrollPane;
+	private ArrayList<String> list = new ArrayList<>();
 	private String[] colNames;
 	private String[] answer;
 	
@@ -73,7 +75,6 @@ public class OrderMenu extends JFrame {
 		title_label.setBounds(448, 2, 187, 60);
 		add(title_label);
 		
-//		printMenu(sql, menu);
 		menu();
 	}
 	
@@ -136,6 +137,31 @@ public class OrderMenu extends JFrame {
 			detailmenu[i].setBackground(new Color(179, 197, 207));
 			detailmenu[i].setBorder(BorderFactory.createLineBorder(Color.WHITE));//Border컬러 지정
 		}
+		
+		print_panel = new JPanel();
+		print_panel.setBounds(0, 71, 486, 582);
+		print_panel.setLayout(null);
+		print_panel.setBackground(new Color(231, 230, 230));
+		
+		list.add("메뉴");
+		list.add("개수");
+		list.add("가격");
+		colNames = list.toArray(new String[list.size()]);
+		answer = new String[3];
+		
+
+		model = new DefaultTableModel(colNames, 0);
+		menutable = new JTable(model);
+		menutable.getTableHeader().setReorderingAllowed(false); //table header 이동 불가
+		menutable.getTableHeader().setResizingAllowed(false); // 크기 조절 불가
+
+		scrollPane = new JScrollPane(menutable);
+		
+		scrollPane.setBounds(0, 0, 486, 385);
+		scrollPane.getViewport().setBackground(Color.WHITE);
+		print_panel.add(scrollPane);
+		getContentPane().add(print_panel);
+		
 	}
 	
 	//메뉴 카테고리 누를 때 메뉴 바뀌게 해줌
@@ -400,28 +426,8 @@ public class OrderMenu extends JFrame {
 	
 	//고객이 주문한 메뉴들 화면에 출력
 	public void printMenu(String sql, int menu){
-		print_panel = new JPanel();
-		print_panel.setBounds(0, 71, 486, 582);
-		print_panel.setLayout(null);
-		print_panel.setBackground(new Color(231, 230, 230));
-		
-		colNames = new String[3];
-//		colNames[0] = "메뉴";
-		
-		
-		String answer[] = new String[3];
-		int a = 1;
-		model = new DefaultTableModel(colNames, 0);
-		menutable = new JTable(model);
-		menutable.getTableHeader().setReorderingAllowed(false); //table header 이동 불가
-		menutable.getTableHeader().setResizingAllowed(false); // 크기 조절 불가
 
-		scrollPane = new JScrollPane(menutable);
-		
-		scrollPane.setBounds(0, 0, 486, 385);
-		scrollPane.getViewport().setBackground(Color.WHITE);
-		print_panel.add(scrollPane);
-		getContentPane().add(print_panel);
+		int a = 1;
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
@@ -431,31 +437,34 @@ public class OrderMenu extends JFrame {
 			rs = pstmt.executeQuery(sql);	//쿼리 execute, 객체 형성
 			
 			while(rs.next()) {//ResultSet에 저장된 데이터 얻기
-				rs.next();
 					if(sql == "select * from meatmenu") {
-						sql += "where gid = " +menu+";";
+						sql = sql+"where gid = " + menu +";";
+						System.out.println(sql);
 						answer[0] = rs.getString("meat_name");
 						answer[1] = rs.getString("meat_price");
+						System.out.println(answer[0] + answer[1]);
 						answer[2] = String.valueOf(a);
 						model.addRow(answer);
 					}
-					else if(sql == "select * from drinks") {
-						sql += "where mid = " + menu + ";";
+					else if(sql == "select * from mealmenu") {
+						sql = sql+"where mid = " + menu + ";";
+						System.out.println(sql);
 						answer[0] = rs.getString("meal_name");
 						answer[1] = rs.getString("meal_price");
+						System.out.println(answer[0] + answer[1]);
 						answer[2] = String.valueOf(a);
 						model.addRow(answer);
 					}
 					else if(sql == "select * from drinks") {
-						sql += "where dr_id = " + menu + ";";
+						sql = sql+"where dr_id = " + menu + ";";
+						System.out.println(sql);
 						answer[0] = rs.getString("dr_name");
 						answer[1] = rs.getString("dr_price");
+						System.out.println(answer[0] + answer[1]);
 						answer[2] = String.valueOf(a);
 						model.addRow(answer);
 					}
 			}
-			
-			
 		}catch(ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패");
 		}catch(SQLException se) {

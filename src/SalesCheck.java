@@ -1,6 +1,6 @@
 import javax.swing.JFrame;
 
-public class Pay extends JFrame{
+public class SalesCheck extends JFrame{
 	
 /*total_price : OrderMenu에서 받아온 총 가격
  * giveMoney : 받을 금액
@@ -12,7 +12,7 @@ public class Pay extends JFrame{
  * Calculate() : 받을 돈, 받은 돈, 거스름 돈 등을 계산하는 메소드
  * calResult() : 계산된 결과를 보여주는 메소드
  */
-	public Pay() {
+	public SalesCheck() {
 		
 	}
 
