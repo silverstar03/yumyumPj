@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -35,7 +34,7 @@ public class OrderMenu extends JFrame {
 	private JButton[] menucategory;
 	private JButton[] detailmenu;	//버튼 15개 생성
 	private JButton jumoonBtn; //주문버튼
-	private JButton payBtn; //결제버튼
+	private JButton cancelBtn; //결제버튼
 	
 	private JLabel name;
 	private JLabel num;
@@ -70,31 +69,15 @@ public class OrderMenu extends JFrame {
 		setVisible(true);
 		setLocationRelativeTo(null);
 		setResizable(false);	//창크기 조절 X
-		setLayout(null); 	//자유롭게 위치 조정 가능
+		getContentPane().setLayout(null); 	//자유롭게 위치 조정 가능
 		getContentPane().setBackground(new Color(231, 230, 230));
 		
 		title_label = new JLabel("주문 등록");
 		title_label.setFont(new Font("문체부 쓰기 정체", Font.PLAIN, 40));
 		title_label.setBounds(448, 2, 187, 60);
-		add(title_label);
+		getContentPane().add(title_label);
 		
-		//주문버튼 추가하기
-		jumoonBtn=new JButton("주문");
-		jumoonBtn.setBounds(850,514,115,94);
-		add(jumoonBtn);
-		//결제 버튼 추가하기
-		payBtn = new JButton("결제");
-		payBtn.setBounds(970,514,115,94);
-		payBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//주문창 없어지고	
-				setVisible(false);
-				//결제창으로 넘어가기
-				new Pay();
-				}
-			});
-		add(payBtn);
+		
 				
 		menu();
 	}
@@ -181,7 +164,22 @@ public class OrderMenu extends JFrame {
 		scrollPane.setBounds(0, 0, 486, 385);
 		scrollPane.getViewport().setBackground(Color.WHITE);
 		print_panel.add(scrollPane);
+		
+		jumoonBtn = new JButton("주문");
+		cancelBtn = new JButton("취소");
+		cancelBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		
+		jumoonBtn.setBounds(1, 386, 240, 60);
+		cancelBtn.setBounds(243,386, 240, 60);
+		
+		print_panel.add(jumoonBtn);
+		print_panel.add(cancelBtn);
+		
 		getContentPane().add(print_panel);
+		this.getContentPane().repaint();
 		
 	}
 	
@@ -455,37 +453,35 @@ public class OrderMenu extends JFrame {
 			String url = "jdbc:mysql://localhost/yumyum1";
 			conn = DriverManager.getConnection(url,"gogi1","2203");
 			pstmt = conn.prepareStatement(sql);	//java statement 생성
-			rs = pstmt.executeQuery(sql);	//쿼리 execute, 객체 형성
+			rs = pstmt.executeQuery(sql);	//쿼리 execute, 객체 형성	
 			
 			while(rs.next()) {//ResultSet에 저장된 데이터 얻기
-					if(sql == "select * from meatmenu") {
-						sql = sql+"where gid = " + menu +";";
-						System.out.println(sql);
-						answer[0] = rs.getString("meat_name");
-						answer[1] = rs.getString("meat_price");
-						System.out.println(answer[0] + answer[1]);
-						answer[2] = String.valueOf(a);
-						model.addRow(answer);
-					}
-					else if(sql == "select * from mealmenu") {
-						sql = sql+"where mid = " + menu + ";";
-						System.out.println(sql);
+				if(sql == "select * from meatmenu") {
+					sql = "select * from where gid = " + menu +";";
+					answer[0] = rs.getString("meat_name");
+					answer[1] = rs.getString("meat_price");
+					System.out.println(answer[0] + answer[1]);
+					answer[2] = String.valueOf(a);
+					model.addRow(answer);
+				}
+				else if(sql == "select * from mealmenu") {
+						sql = "select * from where mid = " + menu + ";";
 						answer[0] = rs.getString("meal_name");
 						answer[1] = rs.getString("meal_price");
 						System.out.println(answer[0] + answer[1]);
 						answer[2] = String.valueOf(a);
 						model.addRow(answer);
-					}
-					else if(sql == "select * from drinks") {
-						sql = sql+"where dr_id = " + menu + ";";
-						System.out.println(sql);
+				}
+				else if(sql == "select * from drinks") {
+						sql = "select * from where dr_id = " + menu + ";";
 						answer[0] = rs.getString("dr_name");
 						answer[1] = rs.getString("dr_price");
 						System.out.println(answer[0] + answer[1]);
 						answer[2] = String.valueOf(a);
 						model.addRow(answer);
-					}
+				}
 			}
+			
 		}catch(ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패");
 		}catch(SQLException se) {
@@ -503,11 +499,3 @@ public class OrderMenu extends JFrame {
 		}
 	}
 }
-
-
-
-
-
-
-
-
