@@ -189,7 +189,7 @@ public class OrderMenu extends JFrame {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 				String url = "jdbc:mysql://localhost/yumyum1";
-				conn = DriverManager.getConnection(url,"gogi1","2203");
+				conn = DriverManager.getConnection(url,"gogi1","2209");
 				//System.out.println("연결 성공");
 				
 				if(num == 0) {
@@ -451,34 +451,46 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2203");
+			conn = DriverManager.getConnection(url,"gogi1","2209");
 			pstmt = conn.prepareStatement(sql);	//java statement 생성
 			rs = pstmt.executeQuery(sql);	//쿼리 execute, 객체 형성	
 			
 			while(rs.next()) {//ResultSet에 저장된 데이터 얻기
 				if(sql == "select * from meatmenu") {
-					sql = "select * from where gid = " + menu +";";
-					answer[0] = rs.getString("meat_name");
-					answer[1] = rs.getString("meat_price");
-					System.out.println(answer[0] + answer[1]);
-					answer[2] = String.valueOf(a);
-					model.addRow(answer);
+					sql = "select * from meatmenu where gid = " + menu +";";
+					pstmt = conn.prepareStatement(sql);
+					rs = pstmt.executeQuery(sql);
+					while(rs.next()){
+						answer[0] = rs.getString("meat_name");
+						answer[1] = rs.getString("meat_price");
+						System.out.println(answer[0] + answer[1]);
+						answer[2] = String.valueOf(a);
+						model.addRow(answer);   
+					}
 				}
 				else if(sql == "select * from mealmenu") {
-						sql = "select * from where mid = " + menu + ";";
+					sql = "select * from mealmenu where mid = " + menu + ";";
+					pstmt = conn.prepareStatement(sql);	//java statement 생성
+					rs = pstmt.executeQuery(sql);
+					while(rs.next()){
 						answer[0] = rs.getString("meal_name");
 						answer[1] = rs.getString("meal_price");
 						System.out.println(answer[0] + answer[1]);
 						answer[2] = String.valueOf(a);
 						model.addRow(answer);
+					}	
 				}
 				else if(sql == "select * from drinks") {
-						sql = "select * from where dr_id = " + menu + ";";
-						answer[0] = rs.getString("dr_name");
-						answer[1] = rs.getString("dr_price");
-						System.out.println(answer[0] + answer[1]);
-						answer[2] = String.valueOf(a);
-						model.addRow(answer);
+						sql = "select * from drinks where dr_id = " + menu + ";";
+						pstmt = conn.prepareStatement(sql);	//java statement 생성
+						rs = pstmt.executeQuery(sql);
+						while(rs.next()){
+							answer[0] = rs.getString("dr_name");
+							answer[1] = rs.getString("dr_price");
+							System.out.println(answer[0] + answer[1]);
+							answer[2] = String.valueOf(a);
+							model.addRow(answer);
+						}
 				}
 			}
 			
