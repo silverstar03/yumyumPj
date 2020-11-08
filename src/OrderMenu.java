@@ -23,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+
 public class OrderMenu extends JFrame {
 	
 	private JLabel title_label;
@@ -33,6 +34,8 @@ public class OrderMenu extends JFrame {
 	
 	private JButton[] menucategory;
 	private JButton[] detailmenu;	//버튼 15개 생성
+	private JButton jumoonBtn; //주문버튼
+	private JButton payBtn; //결제버튼
 	
 	private JLabel name;
 	private JLabel num;
@@ -75,6 +78,24 @@ public class OrderMenu extends JFrame {
 		title_label.setBounds(448, 2, 187, 60);
 		add(title_label);
 		
+		//주문버튼 추가하기
+		jumoonBtn=new JButton("주문");
+		jumoonBtn.setBounds(850,514,115,94);
+		add(jumoonBtn);
+		//결제 버튼 추가하기
+		payBtn = new JButton("결제");
+		payBtn.setBounds(970,514,115,94);
+		payBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//주문창 없어지고	
+				setVisible(false);
+				//결제창으로 넘어가기
+				new Pay();
+				}
+			});
+		add(payBtn);
+				
 		menu();
 	}
 	
