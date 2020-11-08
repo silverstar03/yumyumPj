@@ -19,7 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -36,13 +35,7 @@ public class OrderMenu extends JFrame {
 	private JButton jumoonBtn; //주문버튼
 	private JButton cancelBtn; //결제버튼
 	
-	private JLabel name;
-	private JLabel num;
-	private JTextField price;
-	
 	private JTable menutable;
-
-	private int menu;
 	
 	private DefaultTableModel model;
 	private JScrollPane scrollPane;
@@ -76,8 +69,6 @@ public class OrderMenu extends JFrame {
 		title_label.setFont(new Font("문체부 쓰기 정체", Font.PLAIN, 40));
 		title_label.setBounds(448, 2, 187, 60);
 		getContentPane().add(title_label);
-		
-		
 				
 		menu();
 	}
@@ -172,7 +163,7 @@ public class OrderMenu extends JFrame {
 			}
 		});
 		
-		jumoonBtn.setBounds(1, 386, 240, 60);
+		jumoonBtn.setBounds(2, 386, 240, 60);
 		cancelBtn.setBounds(243,386, 240, 60);
 		
 		print_panel.add(jumoonBtn);
@@ -189,7 +180,7 @@ public class OrderMenu extends JFrame {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 				String url = "jdbc:mysql://localhost/yumyum1";
-				conn = DriverManager.getConnection(url,"gogi1","2209");
+				conn = DriverManager.getConnection(url,"gogi1","2203");
 				//System.out.println("연결 성공");
 				
 				if(num == 0) {
@@ -209,37 +200,36 @@ public class OrderMenu extends JFrame {
 				rs = pstmt.executeQuery(sql);	//쿼리 execute, 객체 형성
 				
 				int i = 0;
-					if(num == 0) {	//버튼 누를 때 초기화시켜주는 코드
-						for(int j = 0; j<detailmenu.length; j++) {
-							detailmenu[j].setText("");
-						}
-						while(rs.next()) {
-							sql = "select * from meatmenu where gid = " +(i+1)+";";
-							detailmenu[i].setText("<html><body>" + rs.getString("meat_name") + "<br>"+ rs.getInt("meat_price")+ "</body></html>");
-							i++;	//gid값과 detailmenu버튼 인덱스 올려주기 위해 i++
-						}
+				if(num == 0) {	//버튼 누를 때 초기화시켜주는 코드
+					for(int j = 0; j<detailmenu.length; j++) {
+						detailmenu[j].setText("");
 					}
-					else if(num == 1) {
-						for(int j = 0; j<detailmenu.length; j++) {
-							detailmenu[j].setText("");
-						}
-						while(rs.next()) {
-							sql = "select * from mealmenu where mid = " +(i+1)+";";
-							detailmenu[i].setText("<html><body>" + rs.getString("meal_name") + "<br>"+ rs.getInt("meal_price")+ "</body></html>");
-							i++;
-						}
+					while(rs.next()) {
+						sql = "select * from meatmenu where gid = " +(i+1)+";";
+						detailmenu[i].setText("<html><body>" + rs.getString("meat_name") + "<br>"+ rs.getInt("meat_price")+ "</body></html>");
+						i++;	//gid값과 detailmenu버튼 인덱스 올려주기 위해 i++
 					}
-					else if(num == 2) {
-						for(int j = 0; j<detailmenu.length; j++) {
-							detailmenu[j].setText("");
-						
+				}
+				else if(num == 1) {
+					for(int j = 0; j<detailmenu.length; j++) {
+						detailmenu[j].setText("");
 					}
-						while(rs.next()) {
-							sql = "select * from drinks where dr_id = " +(i+1)+";";
-							detailmenu[i].setText("<html><body>" + rs.getString("dr_name") + "<br>"+ rs.getInt("dr_price")+ "</body></html>");
-							i++;
-						}
+					while(rs.next()) {
+						sql = "select * from mealmenu where mid = " +(i+1)+";";
+						detailmenu[i].setText("<html><body>" + rs.getString("meal_name") + "<br>"+ rs.getInt("meal_price")+ "</body></html>");
+						i++;
 					}
+				}
+				else if(num == 2) {
+					for(int j = 0; j<detailmenu.length; j++) {
+						detailmenu[j].setText("");	
+					}
+					while(rs.next()) {
+						sql = "select * from drinks where dr_id = " +(i+1)+";";
+						detailmenu[i].setText("<html><body>" + rs.getString("dr_name") + "<br>"+ rs.getInt("dr_price")+ "</body></html>");
+						i++;
+					}
+				}
 				
 			}catch(ClassNotFoundException e) {
 				System.out.println("드라이버 로딩 실패");
@@ -451,10 +441,9 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2209");
+			conn = DriverManager.getConnection(url,"gogi1","2203");
 			pstmt = conn.prepareStatement(sql);	//java statement 생성
 			rs = pstmt.executeQuery(sql);	//쿼리 execute, 객체 형성	
-			
 			while(rs.next()) {//ResultSet에 저장된 데이터 얻기
 				if(sql == "select * from meatmenu") {
 					sql = "select * from meatmenu where gid = " + menu +";";
@@ -465,32 +454,32 @@ public class OrderMenu extends JFrame {
 						answer[1] = rs.getString("meat_price");
 						System.out.println(answer[0] + answer[1]);
 						answer[2] = String.valueOf(a);
-						model.addRow(answer);	
+						model.addRow(answer);
 					}
 				}
 				else if(sql == "select * from mealmenu") {
-						sql = "select * from mealmenu where mid = " + menu + ";";
-						pstmt=conn.prepareStatement(sql);
-						rs=pstmt.executeQuery(sql);
-						while(rs.next()) {
-							answer[0] = rs.getString("meal_name");
-							answer[1] = rs.getString("meal_price");
-							System.out.println(answer[0] + answer[1]);
-							answer[2] = String.valueOf(a);
-							model.addRow(answer);	
-						}
+					sql = "select * from mealmenu where mid = " + menu + ";";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery(sql);
+					while(rs.next()) {
+						answer[0] = rs.getString("meal_name");
+						answer[1] = rs.getString("meal_price");
+						System.out.println(answer[0] + answer[1]);
+						answer[2] = String.valueOf(a);
+						model.addRow(answer);	
+					}
 				}
 				else if(sql == "select * from drinks") {
-						sql = "select * from drinks where dr_id = " + menu + ";";
-						pstmt=conn.prepareStatement(sql);
-						rs=pstmt.executeQuery(sql);
-						while(rs.next()) {
-							answer[0] = rs.getString("dr_name");
-							answer[1] = rs.getString("dr_price");
-							System.out.println(answer[0] + answer[1]);
-							answer[2] = String.valueOf(a);
-							model.addRow(answer);
-						}
+					sql = "select * from drinks where dr_id = " + menu + ";";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery(sql);
+					while(rs.next()) {
+						answer[0] = rs.getString("dr_name");
+						answer[1] = rs.getString("dr_price");
+						System.out.println(answer[0] + answer[1]);
+						answer[2] = String.valueOf(a);
+						model.addRow(answer);
+					}
 				}
 			}
 			
