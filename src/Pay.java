@@ -101,6 +101,7 @@ public class Pay extends JFrame implements ActionListener{
 		
 		show_money=new JTextField("");
 		show_money.setColumns(10);
+		show_money.setEditable(false);
 		show_money.setBounds(14,12,411,36);
 		compute.add(show_money);
 		

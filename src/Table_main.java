@@ -38,7 +38,6 @@ public class Table_main extends JFrame {
 	private JButton yes;
 	private JButton no;
 	//글자 
-	private JLabel price1;
 	private JLabel answer; //로그아웃 하시겠습니까?
 	
 	public static void main(String[] args) {
@@ -60,8 +59,7 @@ public class Table_main extends JFrame {
 			Class.forName("com.mysql.jdbc.Driver");
 			String url="jdbc:mysql://localhost/yumyum1";
 			//mysql 접근 database,테이블 이름,비밀번호
-			conn=DriverManager.getConnection(url,"gogi1","2209");
-			System.out.println("연결 성공");
+			conn=DriverManager.getConnection(url,"gogi1","2203");
 			//gid 몇번째 고기인지 선택 => 메뉴에서 버튼을 선택하면 그 아이디가 넘어간다.
 			int num=1;
 			String sql="select * from meatmenu where gid = "+num+";";
@@ -74,12 +72,6 @@ public class Table_main extends JFrame {
 				int price=rs.getInt("meat_price");
 				jp=new JPanel();
 				jp.setLayout(null);
-				System.out.println("고기 종류: "+meat_name+" / 가격: "+price);
-//				price1=new JLabel();
-//				price1.setBounds(5, 5, 147, 20);
-//				price1.setAlignmentX(0);
-//				price1.setAlignmentY(50);//둘다 0이면 맨 위
-//				price1.setText("가격 : " + Integer.toString(price));
 				
 				table1 = new JButton("테이블 1");
 				table1.addActionListener(new ActionListener() {
@@ -182,9 +174,9 @@ public class Table_main extends JFrame {
 			// TODO Auto-generated method stub
 			if(e.getSource()==LogOut) {
 				checkOut.setLocationRelativeTo(null);
-				checkOut.setVisible(true);
 				yes.addActionListener(new checkOutListener());
 				no.addActionListener(new checkOutListener());
+				checkOut.setVisible(true);
 			}
 		}
 		
@@ -198,10 +190,6 @@ public class Table_main extends JFrame {
 			}else if(ae.getSource()==no) {
 				checkOut.setVisible(false);
 			}
-			
 		}
 	}
-	
-	
-
 }

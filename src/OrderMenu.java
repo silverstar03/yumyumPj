@@ -46,6 +46,9 @@ public class OrderMenu extends JFrame {
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	private String sql;
+	
+	private int[] num;
 	
 	//프로그램 완성되면 지울 main
 	public static void main(String[] args) {
@@ -145,7 +148,11 @@ public class OrderMenu extends JFrame {
 		answer = new String[3];
 		
 
-		model = new DefaultTableModel(colNames, 0);
+		model = new DefaultTableModel(colNames, 0) {
+			public boolean isCellEditable(int i, int c) {//테이블 더블 클릭시 수정 불가
+				return false;
+			}
+		};
 		menutable = new JTable(model);
 		menutable.getTableHeader().setReorderingAllowed(false); //table header 이동 불가
 		menutable.getTableHeader().setResizingAllowed(false); // 크기 조절 불가
@@ -176,7 +183,6 @@ public class OrderMenu extends JFrame {
 	
 	//메뉴 카테고리 누를 때 메뉴 바뀌게 해줌
 		public void menueffect(int num) {
-			String sql="";
 			try {
 				Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 				String url = "jdbc:mysql://localhost/yumyum1";
@@ -250,6 +256,7 @@ public class OrderMenu extends JFrame {
 	
 	
 	public void order(String sql) {	//원하는 메뉴 누르면 
+
 		detailmenu[0].addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -393,6 +400,7 @@ public class OrderMenu extends JFrame {
 				if(!detailmenu[11].getText().equals("")) {
 					if(e.getClickCount()==1) {	//한 번 클릭할 때를 말함(getClickCount는 마우스 클릭 횟수 가져오기)
 						printMenu(sql,12);
+						
 					}
 				}
 			}
@@ -445,15 +453,16 @@ public class OrderMenu extends JFrame {
 			pstmt = conn.prepareStatement(sql);	//java statement 생성
 			rs = pstmt.executeQuery(sql);	//쿼리 execute, 객체 형성	
 			while(rs.next()) {//ResultSet에 저장된 데이터 얻기
+				
 				if(sql == "select * from meatmenu") {
 					sql = "select * from meatmenu where gid = " + menu +";";
 					pstmt=conn.prepareStatement(sql);
 					rs=pstmt.executeQuery(sql);
+					System.out.println(sql);
 					while(rs.next()) {
 						answer[0] = rs.getString("meat_name");
-						answer[1] = rs.getString("meat_price");
-						System.out.println(answer[0] + answer[1]);
-						answer[2] = String.valueOf(a);
+						answer[1] = String.valueOf(a);
+						answer[2] = rs.getString("meat_price");
 						model.addRow(answer);
 					}
 				}
@@ -461,11 +470,11 @@ public class OrderMenu extends JFrame {
 					sql = "select * from mealmenu where mid = " + menu + ";";
 					pstmt=conn.prepareStatement(sql);
 					rs=pstmt.executeQuery(sql);
+					System.out.println(sql);
 					while(rs.next()) {
 						answer[0] = rs.getString("meal_name");
-						answer[1] = rs.getString("meal_price");
-						System.out.println(answer[0] + answer[1]);
-						answer[2] = String.valueOf(a);
+						answer[1] = String.valueOf(a);
+						answer[2] = rs.getString("meal_price");
 						model.addRow(answer);	
 					}
 				}
@@ -473,14 +482,15 @@ public class OrderMenu extends JFrame {
 					sql = "select * from drinks where dr_id = " + menu + ";";
 					pstmt=conn.prepareStatement(sql);
 					rs=pstmt.executeQuery(sql);
+					System.out.println(sql);
 					while(rs.next()) {
 						answer[0] = rs.getString("dr_name");
-						answer[1] = rs.getString("dr_price");
-						System.out.println(answer[0] + answer[1]);
-						answer[2] = String.valueOf(a);
+						answer[1] = String.valueOf(a);
+						answer[2] = rs.getString("dr_price");
 						model.addRow(answer);
 					}
 				}
+				
 			}
 			
 		}catch(ClassNotFoundException e) {
