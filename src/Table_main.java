@@ -64,7 +64,8 @@ public class Table_main extends JFrame {
 		table1 = new JButton("테이블 1");
 		table1.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-				new Choose();
+				new OrderMenu("테이블 1", Table_main.this);
+				setVisible(false);
 			}
 		});
 		table1.setBounds(29, 47, 147, 127);
@@ -72,7 +73,8 @@ public class Table_main extends JFrame {
 		table2 = new JButton("테이블 2");
 		table2.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-				new Choose();
+			new OrderMenu("테이블 2", Table_main.this);
+			setVisible(false);
 			}
 		});
 		table2.setBounds(215, 47, 147, 127);
@@ -80,7 +82,8 @@ public class Table_main extends JFrame {
 		table3 = new JButton("테이블 3");
 		table3.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-				new Choose();
+			new OrderMenu("테이블 3", Table_main.this);
+			setVisible(false);
 			}
 		});
 		table3.setBounds(397, 47, 147, 127);
@@ -88,7 +91,8 @@ public class Table_main extends JFrame {
 		table4 = new JButton("테이블 4");
 		table4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Choose();
+				new OrderMenu("테이블 4", Table_main.this);
+				setVisible(false);
 			}
 		});
 		table4.setBounds(582, 47, 147, 127);
@@ -96,8 +100,8 @@ public class Table_main extends JFrame {
 		table5 = new JButton("테이블 5");
 		table5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Choose();
-				//setVisible(false);
+				new OrderMenu("테이블 5", Table_main.this);
+				setVisible(false);
 			}
 		});
 		table5.setBounds(29, 247, 147, 127);
@@ -105,8 +109,8 @@ public class Table_main extends JFrame {
 		table6 = new JButton("테이블 6");
 		table6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Choose();
-						//setVisible(false);
+				new OrderMenu("테이블 6", Table_main.this);
+				setVisible(false);
 			}
 		});
 		table6.setBounds(215, 247, 147, 127);
@@ -114,7 +118,8 @@ public class Table_main extends JFrame {
 		table7 = new JButton("테이블 7");
 		table7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Choose();
+				new OrderMenu("테이블 7", Table_main.this);
+				setVisible(false);
 			}
 		});
 		table7.setBounds(397, 247, 147, 127);
@@ -122,7 +127,8 @@ public class Table_main extends JFrame {
 		table8 = new JButton("테이블 8");
 		table8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Choose();
+				new OrderMenu("테이블 8", Table_main.this);
+				setVisible(false);
 			}
 		});
 		table8.setBounds(582, 247, 147, 127);
@@ -201,6 +207,30 @@ public class Table_main extends JFrame {
 		}
 	}
 	
+	public void Table1(String result) {
+		table1.setText(result);
+	}
+	public void Table2(String result) {
+		table2.setText(result);
+	}
+	public void Table3(String result) {
+		table3.setText(result);
+	}
+	public void Table4(String result) {
+		table4.setText(result);
+	}
+	public void Table5(String result) {
+		table5.setText(result);
+	}
+	public void Table6(String result) {
+		table6.setText(result);
+	}
+	public void Table7(String result) {
+		table7.setText(result);
+	}
+	public void Table8(String result) {
+		table8.setText(result);
+	}
 	
 
 }
