@@ -284,7 +284,6 @@ public class OrderMenu extends JFrame {
 					}
 				}
 			}
-			
 		});
 		
 		detailmenu[2].addMouseListener(new MouseAdapter() {
