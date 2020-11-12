@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -57,10 +58,10 @@ public class OrderMenu extends JFrame {
 	private String sql2;	//다른 메서드들로 넘겨주는 sql
 	
 	private int[][] cnt = new int[3][15];	//각 메뉴마다 수량 알려주는 배열
-	private int[][] num_cnt = new int[3][15];	
+	private int[][] num_cnt = new int[3][15];	//몇행인지가 저장된 배열(?)
 	private int[][] price = new int[3][15];	//각 메뉴마다의 가격
 	
-	private int row;	//주문 취소할 행
+//	private int row;	//주문 취소할 행
 	private int num = 0;	//메뉴 카테고리 인덱스 받아오는 변수
 	private int sumprice = 0;	//각 메뉴의 총 가격
 	private int totalprice = 0;	//전체 가격
@@ -71,11 +72,10 @@ public class OrderMenu extends JFrame {
 	private String finalprice = "";
 	
 	Table_main t_main;
-	//Pay pay;
 	
 		
 	//생성자 메서드
-	public OrderMenu(String table_num, Table_main t_main,Pay pay) {
+	public OrderMenu(String table_num, Table_main t_main, Pay pay) {
 		
 		this.getContentPane().repaint();	//컴포넌트 재배치(새로고침 개념)
 		setTitle("주문 등록 화면");
@@ -92,10 +92,10 @@ public class OrderMenu extends JFrame {
 		title_label.setBounds(448, 2, 187, 60);
 		add(title_label);
 				
-		menu(table_num, t_main,pay);
+		menu(table_num, t_main, pay);
 	}
 	
-	public void menu(String table_num, Table_main t_main,Pay pay) {	//메뉴 버튼들 생성
+	public void menu(String table_num, Table_main t_main, Pay pay) {	//메뉴 버튼들 생성
 		
 		menu_panel = new JPanel();
 		menu_panel.setBounds(490, 72, 600, 84);
@@ -188,10 +188,11 @@ public class OrderMenu extends JFrame {
 				// TODO Auto-generated method stub
 				tableNum = Integer.parseInt(table_num.substring(4));
 				if(menutable.getRowCount()!=0) {
+					dbinitial();
 					printOrder();
 					printTable(t_main);
 					setVisible(false);
-					t_main.setVisible(true);					
+					t_main.setVisible(true);
 				}
 			}
 		});
@@ -202,7 +203,7 @@ public class OrderMenu extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 1) {
 					if(menutable.getSelectedRow()!=1) {
-//						cancel();
+						cancel();
 					}
 				}				
 			}
@@ -223,7 +224,6 @@ public class OrderMenu extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 1) {
 					setVisible(false);
-					//pay = new Pay(t_main, table_num);
 					pay.setVisible(true);
 				}
 			}
@@ -250,7 +250,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2209");
+			conn = DriverManager.getConnection(url,"gogi1","2203");
 				
 			if(num == 0) {
 				sql2 = "select * from meatmenu";
@@ -508,7 +508,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2209");
+			conn = DriverManager.getConnection(url,"gogi1","2203");
 			pstmt = conn.prepareStatement(sql2);	//java statement 생성
 			rs = pstmt.executeQuery(sql2);	//쿼리 execute, 객체 형성
 			cnt[num][menu]++;
@@ -583,9 +583,9 @@ public class OrderMenu extends JFrame {
 		}
 	}
 	
-	
+	//result에 주문한 메뉴들과 총 가격 넣어줌
 	public void printOrder() {
-		result = "";
+		result ="";
 		result += "<html>";
 		for(int i=0; i<menutable.getRowCount(); i++) {
 			if(i > 3) {
@@ -602,11 +602,11 @@ public class OrderMenu extends JFrame {
 		result += "<br />";
 		result += finalprice + "원";
 		result += "</html>";
-
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2209");
+			conn = DriverManager.getConnection(url,"gogi1","2203");
 			switch(tableNum) {
 			case 1:
 				sql = "insert into table_1(menu, num, price) values(?,?,?)";break;
@@ -650,7 +650,9 @@ public class OrderMenu extends JFrame {
 			}
 		}
 	}
+
 	
+	// result에 있는 값을 table_main으로 넘겨줌
 	public void printTable(Table_main t_main) {
 		if(tableNum == 1) {
 			t_main.Table1(result);
@@ -676,5 +678,88 @@ public class OrderMenu extends JFrame {
 		else if(tableNum == 8) {
 			t_main.Table8(result);
 		}
+	}	
+	
+	public void dbinitial() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
+			String url = "jdbc:mysql://localhost/yumyum1";
+			conn = DriverManager.getConnection(url,"gogi1","2203");
+			String t_num = Integer.toString(tableNum);
+			
+			sql = "delete from table_" + t_num + ";";
+			
+			pstmt = conn.prepareStatement(sql);	//java statement 생성
+			pstmt.executeUpdate(sql);
+			
+		}catch(ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패");
+		}catch(SQLException se) {
+			System.out.println("에러: "+se);
+		}
+		finally {
+			try {
+				if(conn!=null && !conn.isClosed()) {
+					conn.close();
+				}
+				if(pstmt!=null) try {pstmt.close();} catch(SQLException se) {}
+			}catch(SQLException se) {
+				se.printStackTrace();
+			}
+		}
 	}
+	
+	//취소 버튼을 누르면
+	//가격,행 배열 초기화
+	//JTable 행 감소
+	//table_* 디비에 들어있는 메뉴 삭제해주기
+	
+//	private int[][] cnt = new int[3][15];	//각 메뉴마다 수량 알려주는 배열
+//	private int[][] num_cnt = new int[3][15];	//몇행인지가 저장된 배열(?)
+//	private int[][] price = new int[3][15];	//각 메뉴마다의 가격
+	
+	
+	public void cancel() {
+		int row = menutable.getSelectedRow();	//취소버튼 누른 행 가져오기
+		int rowNum = menutable.getRowCount();	//JTable의 데이터 개수 가져오기
+
+		model.removeRow(row);
+		
+//		for(int i = 0; i<3; i++) {
+//			for(int j = 0; j<15; j++) {
+//				if(cn)
+//			}
+//		}
+		totalprice -= Integer.parseInt(String.valueOf(menutable.getValueAt(row, 2)));
+		
+		
+//		try {
+//			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
+//			String url = "jdbc:mysql://localhost/yumyum1";
+//			conn = DriverManager.getConnection(url,"gogi1","2203");
+//			String t_num = Integer.toString(tableNum+1);
+//			String menu_name = String.valueOf(menutable.getValueAt(row, 0));
+//			sql = "delete from table_" + t_num + " where menu='"+menu_name+"';";
+//			System.out.println(sql);
+//			pstmt = conn.prepareStatement(sql);	//java statement 생성
+//			pstmt.executeUpdate();
+//			
+//			
+//			
+//		}catch(ClassNotFoundException e) {
+//			System.out.println("드라이버 로딩 실패");
+//		}catch(SQLException se) {
+//			System.out.println("에러: "+se);
+//		}
+//		finally {
+//			try {
+//				if(conn!=null && !conn.isClosed()) {
+//					conn.close();
+//				}
+//				if(pstmt!=null) try {pstmt.close();} catch(SQLException se) {}
+//			}catch(SQLException se) {
+//				se.printStackTrace();
+//			}
+//		}
+	}	
 }
