@@ -400,7 +400,6 @@ public class Pay extends JFrame implements ActionListener{
 			System.out.println("거스름돈: "+balance+"원");
 		}
 
-	
 	class numberListener implements ActionListener{
 		//번호를 누르면 번호판과 현금결제 - 받을 금액 에 출력이 된다.
 		@Override

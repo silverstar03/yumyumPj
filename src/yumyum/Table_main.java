@@ -43,7 +43,7 @@ public class Table_main extends JFrame {
 	
 	private int[] click = new int[8];
 	
-	Pay pay;
+//	Pay pay;
 	
 	OrderMenu ordermenu1;
 	OrderMenu ordermenu2;
@@ -59,9 +59,10 @@ public class Table_main extends JFrame {
 		new Table_main();
 	}
 	public Table_main() {
-		initialize(pay);
+		initialize();
 	}
-	private void initialize(Pay pay) {
+	
+	private void initialize() {
 		
 		setTitle("냠냠쩝쩝");
 		setSize(761,520);
@@ -74,10 +75,13 @@ public class Table_main extends JFrame {
 		table1 = new JButton("테이블 1");
 		table1.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				Pay pay=new Pay(Table_main.this,"테이블1");
+				pay.setVisible(false);
 				setVisible(false);
 				click[0] += 1;
 				if(click[0] == 1) {
-					ordermenu1 = new OrderMenu("테이블 1", Table_main.this);
+					
+					ordermenu1 = new OrderMenu("테이블 1", Table_main.this,pay);
 				}else if(click[0] >= 2) {
 					ordermenu1.setVisible(true);
 				}
@@ -88,10 +92,12 @@ public class Table_main extends JFrame {
 		table2 = new JButton("테이블 2");
 		table2.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				Pay pay=new Pay(Table_main.this,"테이블2");
+				pay.setVisible(false);
 				setVisible(false);
 				click[1] += 1;
 				if(click[1] == 1) {
-					ordermenu2 = new OrderMenu("테이블 2", Table_main.this);
+					ordermenu2 = new OrderMenu("테이블 2", Table_main.this,pay);
 				}else if(click[1] >= 2) {
 					ordermenu2.setVisible(true);
 				}
@@ -102,10 +108,12 @@ public class Table_main extends JFrame {
 		table3 = new JButton("테이블 3");
 		table3.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				Pay pay=new Pay(Table_main.this,"테이블3");
+				pay.setVisible(false);
 				setVisible(false);
 				click[2] += 1;
 				if(click[2] == 1) {
-					ordermenu3 = new OrderMenu("테이블 3", Table_main.this);
+					ordermenu3 = new OrderMenu("테이블 3", Table_main.this,pay);
 				}else if(click[2] >= 2) {
 					ordermenu3.setVisible(true);
 				}
@@ -116,10 +124,12 @@ public class Table_main extends JFrame {
 		table4 = new JButton("테이블 4");
 		table4.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				Pay pay=new Pay(Table_main.this,"테이블4");
+				pay.setVisible(false);
 				setVisible(false);
 				click[3] += 1;
 				if(click[3] == 1) {
-					ordermenu4 = new OrderMenu("테이블 4", Table_main.this);
+					ordermenu4 = new OrderMenu("테이블 4", Table_main.this,pay);
 				}else if(click[3] >= 2) {
 					ordermenu4.setVisible(true);
 				}
@@ -130,10 +140,12 @@ public class Table_main extends JFrame {
 		table5 = new JButton("테이블 5");
 		table5.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				Pay pay=new Pay(Table_main.this,"테이블5");
+				pay.setVisible(false);
 				setVisible(false);
 				click[4] += 1;
 				if(click[4] == 1) {
-					ordermenu5 = new OrderMenu("테이블 5", Table_main.this);
+					ordermenu5 = new OrderMenu("테이블 5", Table_main.this,pay);
 				}else if(click[4] >= 2) {
 					ordermenu5.setVisible(true);
 				}
@@ -147,7 +159,9 @@ public class Table_main extends JFrame {
 				setVisible(false);
 				click[5] += 1;
 				if(click[5] == 1) {
-					ordermenu6 = new OrderMenu("테이블 6", Table_main.this);
+					Pay pay=new Pay(Table_main.this,"테이블6");
+					pay.setVisible(false);
+					ordermenu6 = new OrderMenu("테이블 6", Table_main.this,pay);
 				}else if(click[5] >= 2) {
 					ordermenu6.setVisible(true);
 				}
@@ -159,9 +173,11 @@ public class Table_main extends JFrame {
 		table7.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
+				Pay pay=new Pay(Table_main.this,"테이블7");
+				pay.setVisible(false);
 				click[6] += 1;
 				if(click[6] == 1) {
-					ordermenu7 = new OrderMenu("테이블 7", Table_main.this);
+					ordermenu7 = new OrderMenu("테이블 7", Table_main.this,pay);
 				}else if(click[6] >= 2) {
 					ordermenu7.setVisible(true);
 				}
@@ -172,10 +188,12 @@ public class Table_main extends JFrame {
 		table8 = new JButton("테이블 8");
 		table8.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				Pay pay=new Pay(Table_main.this,"테이블8");
+				pay.setVisible(false);
 				setVisible(false);
 				click[7] += 1;
 				if(click[7] == 1) {
-					ordermenu8 = new OrderMenu("테이블 8", Table_main.this);
+					ordermenu8 = new OrderMenu("테이블 8", Table_main.this,pay);
 				}else if(click[7] >= 2) {
 					ordermenu8.setVisible(true);
 				}

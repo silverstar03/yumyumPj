@@ -71,11 +71,11 @@ public class OrderMenu extends JFrame {
 	private String finalprice = "";
 	
 	Table_main t_main;
-	Pay pay;
+	//Pay pay;
 	
 		
 	//생성자 메서드
-	public OrderMenu(String table_num, Table_main t_main) {
+	public OrderMenu(String table_num, Table_main t_main,Pay pay) {
 		
 		this.getContentPane().repaint();	//컴포넌트 재배치(새로고침 개념)
 		setTitle("주문 등록 화면");
@@ -92,10 +92,10 @@ public class OrderMenu extends JFrame {
 		title_label.setBounds(448, 2, 187, 60);
 		add(title_label);
 				
-		menu(table_num, t_main);
+		menu(table_num, t_main,pay);
 	}
 	
-	public void menu(String table_num, Table_main t_main) {	//메뉴 버튼들 생성
+	public void menu(String table_num, Table_main t_main,Pay pay) {	//메뉴 버튼들 생성
 		
 		menu_panel = new JPanel();
 		menu_panel.setBounds(490, 72, 600, 84);
@@ -223,7 +223,7 @@ public class OrderMenu extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 1) {
 					setVisible(false);
-					pay = new Pay(t_main, table_num);
+					//pay = new Pay(t_main, table_num);
 					pay.setVisible(true);
 				}
 			}
@@ -250,7 +250,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2203");
+			conn = DriverManager.getConnection(url,"gogi1","2209");
 				
 			if(num == 0) {
 				sql2 = "select * from meatmenu";
@@ -606,7 +606,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2203");
+			conn = DriverManager.getConnection(url,"gogi1","2209");
 			switch(tableNum) {
 			case 1:
 				sql = "insert into table_1(menu, num, price) values(?,?,?)";break;
