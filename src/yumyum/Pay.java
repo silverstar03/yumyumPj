@@ -1,11 +1,9 @@
 package yumyum;
-
-
 //해야될것 
 //1.결제취소 누르면 결제 취소되기 + 전체주문 취소
 //1-2.계산
-//2.결제 완료 누르면 매출 디비에 올라가기 =>now 사용
-//3. 몇번 테이블인지
+//2.결제 완료 누르면 매출 디비에 올라가기 => 월매출, 메뉴별 매출
+//3. 몇번 테이블인지 O
 //4.복합계산 => 현금결제,카드 결제 완성 후 구현하기
 import java.awt.Color;
 import java.awt.Font;
@@ -73,32 +71,44 @@ public class Pay extends JFrame implements ActionListener{
 	private JLabel getMoneyL; //받은 돈
 	private JLabel balanceL; //거스름돈
 	private JLabel instalmentL; //할부 몇개월인지  
-	private JLabel carding; //카드결제중
-	private JLabel discount; //할인금액
+	private JLabel discountL; //할인금액
 	private JLabel giveMoney_ml;
 	private JLabel getMoney_ml;
 	private JLabel okSign;
 	
 	
 	private String sum=""; //번호판에서 누른 가격
-	private cardPaying cp;
+	private cardPaying pt;
+	private int total=0; //총가격
+
+	private int getMoney=0; //받은돈
+	private String getM=""; //받은돈
+	private int balance=0; //거스름돈
 	
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new Pay();
-	}
+//	public static void main(String[] args) {
+//		Table_main table=new Table_main();
+//		table.setVisible(false);
+//		//OrderMenu om=new OrderMenu();
+//		new Pay();
+//	}
 	
-	public Pay() {
+	public Pay(Table_main tm,String table_num) {
 		setTitle("계산");
 		setSize(936,652);
 		setLocationRelativeTo(null); //창이 가운데에서 실행
-		
+		tm.setVisible(false);
+		paying(tm,table_num);
+		setResizable(false);
+		setVisible(true);
+	}
+	
+	public void paying(Table_main tm,String table_num) {
 		mainP=new JPanel();
 		mainP.setLayout(null);
-		titleL=new JLabel("결제하기");
-		titleL.setFont(new Font("나눔바른고딕",Font.PLAIN,30));
-		titleL.setBounds(400,2,187,60);
+		titleL=new JLabel(table_num+" 결제하기");
+		titleL.setFont(new Font("나눔바른고딕",Font.PLAIN,29));
+		titleL.setBounds(330,2,220,60);
 		mainP.add(titleL);
 		
 		//현상황만 알려주는 총금액,받을 금액,거스름돈 =>분할계산 할 경우
@@ -109,13 +119,13 @@ public class Pay extends JFrame implements ActionListener{
 
 		total_price = new JLabel("총금액: ");
 		total_price.setBounds(118,34,52,18);
-		discount=new JLabel("할인금액: ");
-		discount.setBounds(118, 79, 66, 18);
+		discountL=new JLabel("할인금액: ");
+		discountL.setBounds(118, 79, 66, 18);
 		giveMoney_ml = new JLabel("받을 금액: ");
 		giveMoney_ml.setBounds(118, 127, 80, 18);
 		getMoney_ml = new JLabel("받은 금액 : ");
 		getMoney_ml.setBounds(118, 176, 80, 18);		
-		total_price_tf = new JTextField(10); //총금액 필드
+		total_price_tf = new JTextField("30000",10); //총금액 필드
 		total_price_tf.setBounds(220, 31, 116, 24);
 		discount_tf = new JTextField("0",10); //할인금액 필드
 		discount_tf.setBounds(220, 76, 116, 24);
@@ -131,7 +141,7 @@ public class Pay extends JFrame implements ActionListener{
 
 		money.add(total_price);
 		money.add(total_price_tf);
-		money.add(discount);
+		money.add(discountL);
 		money.add(discount_tf);
 		money.add(giveMoney_ml);
 		money.add(giveMoney_m_tf);
@@ -159,7 +169,8 @@ public class Pay extends JFrame implements ActionListener{
 		instalmentL=new JLabel("");
 		
 		//받을금액 보여주는 텍스트필드
-		giveMoneytf = new JTextField(7);
+		//받을 금액 == 총금액 계산할 때 받을금액을 int로 변환해서 계산하기 
+		giveMoneytf = new JTextField(total_price_tf.getText(),7);
 		giveMoneytf.setEditable(false);
 		giveMoneytf.setVisible(false);
 		
@@ -197,10 +208,97 @@ public class Pay extends JFrame implements ActionListener{
 		
 		//현금결제버튼
 		cashBtn = new JButton("현금 결제");
+		cashBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				payLabel.setText("[현금결제]");
+				instalmentL.setText("");
+				instalmenttf.setVisible(false);
+				cardPay.setVisible(false);
+
+				giveMoneyL.setBounds(64, 42, 83, 30);
+				
+				//받을금액 tf
+				//giveMoneytf.setText("30000");
+				giveMoneytf.setBounds(148,42,99,30);
+				giveMoneytf.setVisible(true);
+				
+				//받은 금액
+				getMoneyL.setText("받은 금액: ");
+				getMoneyL.setBounds(64, 94, 83, 30);
+				
+				getMoneytf.setText(Integer.toString(balance));
+				getMoneytf.setBounds(148, 94, 99, 30);
+				getMoneytf.setVisible(true);
+				
+				balanceL.setText("거스름돈: ");
+				balanceL.setBounds(64, 149, 83, 30);
+				balanceL.setVisible(true);
+				balancetf.setBounds(148, 149, 99, 30);
+				balancetf.setVisible(true);
+
+				payPanel.add(giveMoneyL); 
+				payPanel.add(giveMoneytf);
+				payPanel.add(getMoneyL);
+				payPanel.add(getMoneytf);
+				payPanel.add(balanceL);
+				payPanel.add(balancetf);
+				cashPay.setVisible(true);
+				
+				cashPay.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent ae) {
+						sum="";
+						show_money.setText("");
+						//getMoneytf.setText("");
+						instalmenttf.setText("");
+						calculate();
+						PayOk(tm,table_num);
+					}
+				});
+			}
+		});
 		cashBtn.setBounds(758,350,128,114);
 		
 		//카드결제 버튼
 		cardBtn=new JButton("카드 결제");
+		cardBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				payLabel.setText("[카드결제]");
+				getMoneyL.setText("");
+				getMoneytf.setVisible(false);
+				balanceL.setText("");
+				balancetf.setVisible(false);
+				cashPay.setVisible(false); 
+				
+				giveMoneyL.setText("받을 금액: ");
+				giveMoneyL.setBounds(64, 65, 83, 30);
+				
+				giveMoneytf.setBounds(148,65,99,30);
+				giveMoneytf.setVisible(true);
+			
+				instalmentL.setText("할부: ");
+				instalmentL.setBounds(64, 114, 83, 30);
+				
+				instalmenttf.setBounds(148, 114, 99, 30);
+				instalmenttf.setVisible(true);
+				
+				
+				payPanel.add(giveMoneyL); 
+				payPanel.add(giveMoneytf);
+				
+				payPanel.add(instalmentL);
+				payPanel.add(instalmenttf);
+				
+				cardPay.setVisible(true);
+				//카드결제에서 결제 눌렀을경우 발생
+				cardPay.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						//new PayTest2();
+						pt=new cardPaying();
+						PayOk(tm,table_num);
+					}
+				});
+			}
+		});
 		cardBtn.setBounds(758, 470, 128, 109);
 		
 		mainP.add(cashBtn); mainP.add(cardBtn);
@@ -209,10 +307,8 @@ public class Pay extends JFrame implements ActionListener{
 	
 		cashBtn.addActionListener(this);
 		cardBtn.addActionListener(this);
-		setResizable(false);
-		setVisible(true);
 	}
-	
+	//
 	public void calc() {
 		numbers=new JPanel();
 		numbers.setBounds(485, 348, 269, 235);
@@ -250,126 +346,61 @@ public class Pay extends JFrame implements ActionListener{
 		clear.addActionListener(new numberListener());
 	}
 
-
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// 결제창 패널 제어
-		//현금결제버튼을 눌렀을 경우 문제점 : 가끔 거스름돈 부분이 안나오다가 나옴 =>수정필요 =>수정한듯
-		if(e.getSource() == cashBtn) {
-			payLabel.setText("[현금결제]");
-			instalmentL.setText("");
-			instalmenttf.setVisible(false);
-			cardPay.setVisible(false);
-
-			giveMoneyL.setBounds(64, 42, 83, 30);
-			
-			//받을금액 tf
-			//giveMoneytf.setText("30000");
-			giveMoneytf.setBounds(148,42,99,30);
-			giveMoneytf.setVisible(true);
-			
-			//받은 금액
-			getMoneyL.setText("받은 금액: ");
-			getMoneyL.setBounds(64, 94, 83, 30);
-			
-			getMoneytf.setBounds(148, 94, 99, 30);
-			getMoneytf.setVisible(true);
-			
-			balanceL.setText("거스름돈: ");
-			balanceL.setBounds(64, 149, 83, 30);
-			balanceL.setVisible(true);
-			balancetf.setBounds(148, 149, 99, 30);
-			balancetf.setVisible(true);
-
-			
-			
-			payPanel.add(giveMoneyL); 
-			payPanel.add(giveMoneytf);
-			payPanel.add(getMoneyL);
-			payPanel.add(getMoneytf);
-			payPanel.add(balanceL);
-			payPanel.add(balancetf);
-			cashPay.setVisible(true);
-			
-			cashPay.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent ae) {
-					sum="";
-					show_money.setText("");
-					getMoneytf.setText("");
-					instalmenttf.setText("");
-					PayOk();
-				}
-			});
-			
-		}else if(e.getSource()==cardBtn) {
-			//카드 결제를 눌렀을 경우 =>문제점: 카드로 갔다가 현금을 갔다가 다시 카드로 가면 쓰레드가 2번 실행됨
-			payLabel.setText("[카드결제]");
-			getMoneyL.setText("");
-			getMoneytf.setVisible(false);
-			balanceL.setText("");
-			balancetf.setVisible(false);
-			cashPay.setVisible(false); 
-			
-			giveMoneyL.setText("받을 금액: ");
-			giveMoneyL.setBounds(64, 65, 83, 30);
-			
-			giveMoneytf.setBounds(148,65,99,30);
-			giveMoneytf.setVisible(true);
-		
-			instalmentL.setText("할부: ");
-			instalmentL.setBounds(64, 114, 83, 30);
-			
-			instalmenttf.setBounds(148, 114, 99, 30);
-			instalmenttf.setVisible(true);
-			
-			
-			payPanel.add(giveMoneyL); 
-			payPanel.add(giveMoneytf);
-			
-			payPanel.add(instalmentL);
-			payPanel.add(instalmenttf);
-			
-			cardPay.setVisible(true);
-			cardPay.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					//new PayTest2();
-					cp=new cardPaying();
-					PayOk();
-				}
-			});
-		}
-	} //ActionEvenet끝
-	
 	//결제 완료 창
-	public void PayOk() {
-		payOk = new JDialog(this,"결제완료",true);
-		payOk.setSize(276,179);
-		payOk.setLayout(null);
-		payOk.setResizable(false);
-		payOk.setLocationRelativeTo(null);
-		okSign = new JLabel("결제가 완료되었습니다.",JLabel.CENTER);
-		okSign.setFont(new Font("나눔바른고딕",Font.PLAIN,17));
-		okSign.setBounds(40,40,200,23);
-		okBtn=new JButton("확인");
-		okBtn.setBounds(78,93,105,27);
-		payOk.add(okSign); payOk.add(okBtn);
-		//확인 버튼을 누르면 다이얼로그 창과 Pay닫히기
-		okBtn.addActionListener(new okBtnListener());
-		
-		payOk.setLocationRelativeTo(null);
-		payOk.setVisible(true);
-	}
-	
-	class okBtnListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent okay) {
-			if(okay.getSource()==okBtn) {
-				payOk.setVisible(false);
-				setVisible(false);
+	//문제점: 결제버튼을 누르면 거스름돈 text가 사라진다.
+		public void PayOk(Table_main tm,String table_num) {
+			payOk = new JDialog(this,"결제완료",true);
+			payOk.setSize(276,179);
+			payOk.setLayout(null);
+			payOk.setResizable(false);
+			payOk.setLocationRelativeTo(null);
+			okSign = new JLabel("결제가 완료되었습니다.",JLabel.CENTER);
+			okSign.setFont(new Font("나눔바른고딕",Font.PLAIN,17));
+			okSign.setBounds(40,40,200,23);
+			okBtn=new JButton("확인");
+			okBtn.setBounds(78,93,105,27);
+			payOk.add(okSign); payOk.add(okBtn);
+			//확인 버튼을 누르면 다이얼로그 창과 Pay닫히기
+			okBtn.addActionListener(new okBtnListener());
+			
+			payOk.setLocationRelativeTo(null);
+			payOk.setVisible(true);
+			if(table_num.equals("테이블1")) {
+				tm.Table1("테이블1");tm.setVisible(true);
+			}else if(table_num.equals("테이블2")) {
+				tm.Table2("테이블2");tm.setVisible(true);
+			}else if(table_num.equals("테이블3")) {
+				tm.Table3("테이블3");tm.setVisible(true);
+			}else if(table_num.equals("테이블4")) {
+				tm.Table4("테이블4");tm.setVisible(true);
+			}else if(table_num.equals("테이블5")) {
+				tm.Table5("테이블5");tm.setVisible(true);
+			}else if(table_num.equals("테이블6")) {
+				tm.Table6("테이블6");tm.setVisible(true);
+			}else if(table_num.equals("테이블7")) {
+				tm.Table7("테이블7");tm.setVisible(true);
+			}else if(table_num.equals("테이블8")) {
+				tm.Table8("테이블8");tm.setVisible(true);
 			}
 		}
-	}
+		
+		//계산하는 메서드
+		public void calculate() {
+			total=Integer.parseInt(giveMoneytf.getText());
+			//수정필요  다시 눌렀을 경우 하나씩 지워지는 버튼도 필요
+			getMoney=Integer.parseInt(getM); //여기서 clear를 한번 누르고 하면 공백+숫자라서 오류발생 
+			if(total>=getMoney) {
+				balance=total-getMoney;
+			}
+			balancetf.setText(Integer.toString(balance));
+			//확인차
+			System.out.println("[현금결제]");
+			System.out.println("총금액:"+total+"원");
+			System.out.println("받은 돈: "+getMoney+"원");
+			System.out.println("거스름돈: "+balance+"원");
+		}
+
+	
 	class numberListener implements ActionListener{
 		//번호를 누르면 번호판과 현금결제 - 받을 금액 에 출력이 된다.
 		@Override
@@ -400,6 +431,7 @@ public class Pay extends JFrame implements ActionListener{
 				show_money.setText(sum);
 				getMoneytf.setText(sum);
 				instalmenttf.setText(sum);
+
 			}else if(nn.getSource()==num5) {
 				sum+=num5.getText();
 				show_money.setText(sum);
@@ -410,33 +442,55 @@ public class Pay extends JFrame implements ActionListener{
 				show_money.setText(sum);
 				getMoneytf.setText(sum);
 				instalmenttf.setText(sum);
+
 			}else if(nn.getSource()==num7) {
 				sum+=num7.getText();
 				show_money.setText(sum);
 				getMoneytf.setText(sum);
 				instalmenttf.setText(sum);
+
 			}else if(nn.getSource()==num8) {
 				sum+=num8.getText();
 				show_money.setText(sum);
 				getMoneytf.setText(sum);
 				instalmenttf.setText(sum);
+
 			}else if(nn.getSource()==num9) {
 				sum+=num9.getText();
 				show_money.setText(sum);
 				getMoneytf.setText(sum);
 				instalmenttf.setText(sum);
+
 			}else if(nn.getSource()==num00) {
 				sum+=num00.getText();
 				show_money.setText(sum);
 				getMoneytf.setText(sum);
 				instalmenttf.setText(sum);
+
 			}else if(nn.getSource()==clear) {
 				sum=" ";
-				show_money.setText(" ");
+				show_money.setText("");
 				getMoneytf.setText("");
 				instalmenttf.setText("");
 			}
+			getM=sum;
 		}
 	} //end of class
-}
+	
+	class okBtnListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent okay) {
+			if(okay.getSource()==okBtn) {
+				payOk.setVisible(false);
+				setVisible(false);
+			}
+		}
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+}

@@ -1,6 +1,5 @@
 package yumyum;
 
-
 //문제점: 결제를 하고 다시 돌아오면 창이 없어지지않고 새로생김
 import java.awt.Font;
 
@@ -24,7 +23,6 @@ public class Table_main extends JFrame {
 	
 	//정말로 프로그램 종료를 할 것인지 아닌지 확인
 	private JDialog checkOut;
-	//private JDialog choose; //주문할건지 결제한건지 선택
 	private JPanel jp;
 	
 	//테이블 8개
@@ -46,13 +44,12 @@ public class Table_main extends JFrame {
 	private JLabel answer; //로그아웃 하시겠습니까?
 	
 	public static void main(String[] args) {
-		Pay pay = new Pay();
-		new Table_main(pay);
+		new Table_main();
 	}
-	public Table_main(Pay pay) {
-		initialize(pay);
+	public Table_main() {
+		initialize();
 	}
-	private void initialize(Pay pay) {
+	private void initialize() {
 		//데이터베이스 연동에 필요한 요소들
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -60,6 +57,7 @@ public class Table_main extends JFrame {
 		setTitle("냠냠쩝쩝");
 		setSize(761,520);
 		setLocationRelativeTo(null);	//창이 가운데에서 실행
+		setResizable(false);
 	
 		jp=new JPanel();
 		jp.setLayout(null);
@@ -67,6 +65,8 @@ public class Table_main extends JFrame {
 		table1 = new JButton("테이블 1");
 		table1.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+				Pay pay=new Pay(Table_main.this,"테이블1");
+				pay.setVisible(false);
 				new OrderMenu("테이블 1", Table_main.this, pay);
 				setVisible(false);
 			}
@@ -76,6 +76,8 @@ public class Table_main extends JFrame {
 		table2 = new JButton("테이블 2");
 		table2.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			Pay pay=new Pay(Table_main.this,"테이블2"); //몇번테이블인지 이름을 받기위해서 Pay(String table_num) 상태이다.각각마다 받아오기 위해서 
+			pay.setVisible(false);
 			new OrderMenu("테이블 2", Table_main.this, pay);
 			setVisible(false);
 			}
@@ -85,6 +87,8 @@ public class Table_main extends JFrame {
 		table3 = new JButton("테이블 3");
 		table3.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			Pay pay=new Pay(Table_main.this,"테이블3");
+			pay.setVisible(false);
 			new OrderMenu("테이블 3", Table_main.this, pay);
 			setVisible(false);
 			}
@@ -94,6 +98,8 @@ public class Table_main extends JFrame {
 		table4 = new JButton("테이블 4");
 		table4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Pay pay=new Pay(Table_main.this,"테이블4");
+				pay.setVisible(false);
 				new OrderMenu("테이블 4", Table_main.this, pay);
 				setVisible(false);
 			}
@@ -103,6 +109,8 @@ public class Table_main extends JFrame {
 		table5 = new JButton("테이블 5");
 		table5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Pay pay=new Pay(Table_main.this,"테이블5");
+				pay.setVisible(false);
 				new OrderMenu("테이블 5", Table_main.this, pay);
 				setVisible(false);
 			}
@@ -112,6 +120,8 @@ public class Table_main extends JFrame {
 		table6 = new JButton("테이블 6");
 		table6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Pay pay=new Pay(Table_main.this,"테이블6");
+				pay.setVisible(false);
 				new OrderMenu("테이블 6", Table_main.this, pay);
 				setVisible(false);
 			}
@@ -121,6 +131,8 @@ public class Table_main extends JFrame {
 		table7 = new JButton("테이블 7");
 		table7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Pay pay=new Pay(Table_main.this,"테이블7");
+				pay.setVisible(false);
 				new OrderMenu("테이블 7", Table_main.this, pay);
 				setVisible(false);
 			}
@@ -130,6 +142,8 @@ public class Table_main extends JFrame {
 		table8 = new JButton("테이블 8");
 		table8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Pay pay=new Pay(Table_main.this,"테이블8");
+				pay.setVisible(false);
 				new OrderMenu("테이블 8", Table_main.this, pay);
 				setVisible(false);
 			}
@@ -144,7 +158,7 @@ public class Table_main extends JFrame {
 			}
 		});
 				
-				//프로그램 종료 확인하는 dialog
+		//프로그램 종료 확인하는 dialog
 		LogOut=new JButton("프로그램 종료");
 		LogOut.setBounds(480, 410, 120, 37);
 				
@@ -173,9 +187,6 @@ public class Table_main extends JFrame {
 		checkOut.setVisible(false);
 		LogOut.addActionListener(new OutActionListener());
 		//Dialog끝
-				
-		//choose 다이얼로그
-				
 		setVisible(true);
 			
 	}
@@ -234,6 +245,4 @@ public class Table_main extends JFrame {
 	public void Table8(String result) {
 		table8.setText(result);
 	}
-	
-
 }
