@@ -45,6 +45,7 @@ public class Table_main extends JFrame {
 	
 	public static void main(String[] args) {
 		Pay pay = new Pay();
+		pay.setVisible(false);
 		new Table_main(pay);
 	}
 	public Table_main(Pay pay) {
@@ -69,7 +70,7 @@ public class Table_main extends JFrame {
 				setVisible(false);
 			}
 		});
-		table1.setBounds(29, 47, 147, 127);
+		table1.setBounds(29, 47, 147, 137);
 				
 		table2 = new JButton("Å×ÀÌºí 2");
 		table2.addActionListener(new ActionListener() {
