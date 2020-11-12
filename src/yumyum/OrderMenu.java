@@ -23,6 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import yumyum.Table_main;
+import yumyum.Pay;
 
 public class OrderMenu extends JFrame {
 	
@@ -63,14 +65,14 @@ public class OrderMenu extends JFrame {
 	private int sumprice = 0;	//각 메뉴의 총 가격
 	private int totalprice = 0;	//전체 가격
 	private int menu = 0;
+	private int tableNum = 0;
 	
 	private String result = "";
 	private String finalprice = "";
 	
-	//프로그램 완성되면 지울 main
-//	public static void main(String[] args) {
-//			new OrderMenu(table_num, t_main, pay);
-//	}
+	Table_main t_main;
+	Pay pay;
+	
 		
 	//생성자 메서드
 	public OrderMenu(String table_num, Table_main t_main, Pay pay) {
@@ -184,9 +186,10 @@ public class OrderMenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				tableNum = Integer.parseInt(table_num.substring(4));
 				if(menutable.getRowCount()!=0) {
 					printOrder();
-					printTable(Integer.parseInt(table_num.substring(4)),t_main);
+					printTable(t_main);
 					setVisible(false);
 					t_main.setVisible(true);					
 				}
@@ -246,7 +249,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2209");
+			conn = DriverManager.getConnection(url,"gogi1","2203");
 				
 			if(num == 0) {
 				sql2 = "select * from meatmenu";
@@ -500,12 +503,11 @@ public class OrderMenu extends JFrame {
 	
 	//고객이 주문한 메뉴들 화면에 출력
 	public void printMenu(int me){
-		int a = 1;
 		menu = me;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2209");
+			conn = DriverManager.getConnection(url,"gogi1","2203");
 			pstmt = conn.prepareStatement(sql2);	//java statement 생성
 			rs = pstmt.executeQuery(sql2);	//쿼리 execute, 객체 형성
 			cnt[num][menu]++;
@@ -582,6 +584,7 @@ public class OrderMenu extends JFrame {
 	
 	
 	public void printOrder() {
+		result = "";
 		result += "<html>";
 		for(int i=0; i<menutable.getRowCount(); i++) {
 			if(i > 3) {
@@ -594,35 +597,82 @@ public class OrderMenu extends JFrame {
 		result += menutable.getValueAt(i, 1);
 		result += "<br />";
 		}
-		finalprice += String.valueOf(totalprice);
+		finalprice = String.valueOf(totalprice);
 		result += "<br />";
 		result += finalprice + "원";
 		result += "</html>";
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
+			String url = "jdbc:mysql://localhost/yumyum1";
+			conn = DriverManager.getConnection(url,"gogi1","2203");
+			switch(tableNum) {
+			case 1:
+				sql = "insert into table_1(menu, num, price) values(?,?,?)";break;
+			case 2:
+				sql = "insert into table_2(menu, num, price) values(?,?,?)";break;
+			case 3:
+				sql = "insert into table_3(menu, num, price) values(?,?,?)";break;
+			case 4:
+				sql = "insert into table_4(menu, num, price) values(?,?,?)";break;
+			case 5:
+				sql = "insert into table_5(menu, num, price) values(?,?,?)";break;
+			case 6:
+				sql = "insert into table_6(menu, num, price) values(?,?,?)";break;
+			case 7:
+				sql = "insert into table_7(menu, num, price) values(?,?,?)";break;
+			case 8:
+				sql = "insert into table_8(menu, num, price) values(?,?,?)";break;
+			}
+			pstmt = conn.prepareStatement(sql);	//java statement 생성
+			
+			for(int i = 0; i < menutable.getRowCount(); i++) {
+				pstmt.setString(1, menutable.getValueAt(i, 0).toString());
+				pstmt.setInt(2, Integer.parseInt(String.valueOf(menutable.getValueAt(i, 1))));
+				pstmt.setInt(3, Integer.parseInt(String.valueOf(menutable.getValueAt(i, 2))));
+				pstmt.executeUpdate();
+			}	
+			
+		}catch(ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패");
+		}catch(SQLException se) {
+			System.out.println("에러: "+se);
+		}
+		finally {
+			try {
+				if(conn!=null && !conn.isClosed()) {
+					conn.close();
+				}
+				if(pstmt!=null) try {pstmt.close();} catch(SQLException se) {}
+			}catch(SQLException se) {
+				se.printStackTrace();
+			}
+		}
 	}
 	
-	public void printTable(int num, Table_main t_main) {
-		if(num == 1) {
+	public void printTable(Table_main t_main) {
+		if(tableNum == 1) {
 			t_main.Table1(result);
 		}
-		else if(num == 2) {
+		else if(tableNum == 2) {
 			t_main.Table2(result);
 		}
-		else if(num == 3) {
+		else if(tableNum == 3) {
 			t_main.Table3(result);
 		}
-		else if(num == 4) {
+		else if(tableNum == 4) {
 			t_main.Table4(result);
 		}
-		else if(num == 5) {
+		else if(tableNum == 5) {
 			t_main.Table5(result);
 		}
-		else if(num == 6) {
+		else if(tableNum == 6) {
 			t_main.Table6(result);
 		}
-		else if(num == 7) {
+		else if(tableNum == 7) {
 			t_main.Table7(result);
 		}
-		else if(num == 8) {
+		else if(tableNum == 8) {
 			t_main.Table8(result);
 		}
 	}

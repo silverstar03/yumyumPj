@@ -1,17 +1,12 @@
 package yumyum;
 
-//문제점: 결제를 하고 다시 돌아오면 창이 없어지지않고 새로생김
 import java.awt.Font;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -19,10 +14,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import yumyum.OrderMenu;
+import yumyum.Pay;
+
 public class Table_main extends JFrame {
-	
 	//정말로 프로그램 종료를 할 것인지 아닌지 확인
 	private JDialog checkOut;
+	//private JDialog choose; //주문할건지 결제한건지 선택
 	private JPanel jp;
 	
 	//테이블 8개
@@ -43,109 +41,144 @@ public class Table_main extends JFrame {
 	//글자 
 	private JLabel answer; //로그아웃 하시겠습니까?
 	
+	private int[] click = new int[8];
+	
+	Pay pay;
+	
+	OrderMenu ordermenu1;
+	OrderMenu ordermenu2;
+	OrderMenu ordermenu3;
+	OrderMenu ordermenu4;
+	OrderMenu ordermenu5;
+	OrderMenu ordermenu6;
+	OrderMenu ordermenu7;
+	OrderMenu ordermenu8;
+	
 	public static void main(String[] args) {
+		// TODO Auto-generated method stub
 		new Table_main();
 	}
 	public Table_main() {
-		initialize();
+		initialize(pay);
 	}
-	private void initialize() {
-		//데이터베이스 연동에 필요한 요소들
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs=null;
+	private void initialize(Pay pay) {
+		
 		setTitle("냠냠쩝쩝");
 		setSize(761,520);
 		setLocationRelativeTo(null);	//창이 가운데에서 실행
 		setResizable(false);
-	
+		
 		jp=new JPanel();
 		jp.setLayout(null);
 				
 		table1 = new JButton("테이블 1");
-		table1.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-				Pay pay=new Pay(Table_main.this,"테이블1");
-				pay.setVisible(false);
-				new OrderMenu("테이블 1", Table_main.this, pay);
+		table1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
+				click[0] += 1;
+				if(click[0] == 1) {
+					ordermenu1 = new OrderMenu("테이블 1", Table_main.this, pay);
+				}else if(click[0] >= 2) {
+					ordermenu1.setVisible(true);
+				}
 			}
 		});
 		table1.setBounds(29, 47, 147, 127);
 				
 		table2 = new JButton("테이블 2");
-		table2.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			Pay pay=new Pay(Table_main.this,"테이블2"); //몇번테이블인지 이름을 받기위해서 Pay(String table_num) 상태이다.각각마다 받아오기 위해서 
-			pay.setVisible(false);
-			new OrderMenu("테이블 2", Table_main.this, pay);
-			setVisible(false);
+		table2.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				click[1] += 1;
+				if(click[1] == 1) {
+					ordermenu2 = new OrderMenu("테이블 2", Table_main.this, pay);
+				}else if(click[1] >= 2) {
+					ordermenu2.setVisible(true);
+				}
 			}
 		});
 		table2.setBounds(215, 47, 147, 127);
 		
 		table3 = new JButton("테이블 3");
-		table3.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			Pay pay=new Pay(Table_main.this,"테이블3");
-			pay.setVisible(false);
-			new OrderMenu("테이블 3", Table_main.this, pay);
-			setVisible(false);
+		table3.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				click[2] += 1;
+				if(click[2] == 1) {
+					ordermenu3 = new OrderMenu("테이블 3", Table_main.this, pay);
+				}else if(click[2] >= 2) {
+					ordermenu3.setVisible(true);
+				}
 			}
 		});
 		table3.setBounds(397, 47, 147, 127);
 		
 		table4 = new JButton("테이블 4");
-		table4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Pay pay=new Pay(Table_main.this,"테이블4");
-				pay.setVisible(false);
-				new OrderMenu("테이블 4", Table_main.this, pay);
+		table4.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
+				click[3] += 1;
+				if(click[3] == 1) {
+					ordermenu4 = new OrderMenu("테이블 4", Table_main.this, pay);
+				}else if(click[3] >= 2) {
+					ordermenu4.setVisible(true);
+				}
 			}
 		});
 		table4.setBounds(582, 47, 147, 127);
 		
 		table5 = new JButton("테이블 5");
-		table5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Pay pay=new Pay(Table_main.this,"테이블5");
-				pay.setVisible(false);
-				new OrderMenu("테이블 5", Table_main.this, pay);
+		table5.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
+				click[4] += 1;
+				if(click[4] == 1) {
+					ordermenu5 = new OrderMenu("테이블 5", Table_main.this, pay);
+				}else if(click[4] >= 2) {
+					ordermenu5.setVisible(true);
+				}
 			}
 		});
 		table5.setBounds(29, 247, 147, 127);
 		
 		table6 = new JButton("테이블 6");
-		table6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Pay pay=new Pay(Table_main.this,"테이블6");
-				pay.setVisible(false);
-				new OrderMenu("테이블 6", Table_main.this, pay);
+		table6.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
+				click[5] += 1;
+				if(click[5] == 1) {
+					ordermenu6 = new OrderMenu("테이블 6", Table_main.this, pay);
+				}else if(click[5] >= 2) {
+					ordermenu6.setVisible(true);
+				}
 			}
 		});
 		table6.setBounds(215, 247, 147, 127);
 
 		table7 = new JButton("테이블 7");
-		table7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Pay pay=new Pay(Table_main.this,"테이블7");
-				pay.setVisible(false);
-				new OrderMenu("테이블 7", Table_main.this, pay);
+		table7.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
+				click[6] += 1;
+				if(click[6] == 1) {
+					ordermenu7 = new OrderMenu("테이블 7", Table_main.this, pay);
+				}else if(click[6] >= 2) {
+					ordermenu7.setVisible(true);
+				}
 			}
 		});
 		table7.setBounds(397, 247, 147, 127);
 		
 		table8 = new JButton("테이블 8");
-		table8.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Pay pay=new Pay(Table_main.this,"테이블8");
-				pay.setVisible(false);
-				new OrderMenu("테이블 8", Table_main.this, pay);
+		table8.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
+				click[7] += 1;
+				if(click[7] == 1) {
+					ordermenu8 = new OrderMenu("테이블 8", Table_main.this, pay);
+				}else if(click[7] >= 2) {
+					ordermenu8.setVisible(true);
+				}
 			}
 		});
 		table8.setBounds(582, 247, 147, 127);
@@ -154,7 +187,7 @@ public class Table_main extends JFrame {
 		check_maechul.setBounds(609, 410, 120, 37);
 		check_maechul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SalesCheck();
+//				new SalesCheck();
 			}
 		});
 				
@@ -186,10 +219,10 @@ public class Table_main extends JFrame {
 		checkOut.add(no);
 		checkOut.setVisible(false);
 		LogOut.addActionListener(new OutActionListener());
-		//Dialog끝
+				//Dialog끝				
 		setVisible(true);
-			
 	}
+
 	
 	//다이얼로그 창 주문인지 결제인지 선택
 
@@ -200,7 +233,6 @@ public class Table_main extends JFrame {
 			// TODO Auto-generated method stub
 			if(e.getSource()==LogOut) {
 				checkOut.setLocationRelativeTo(null);
-				//checkOut.setVisible(true);
 				yes.addActionListener(new checkOutListener());
 				no.addActionListener(new checkOutListener());
 				checkOut.setVisible(true);
@@ -217,7 +249,6 @@ public class Table_main extends JFrame {
 			}else if(ae.getSource()==no) {
 				checkOut.setVisible(false);
 			}
-			
 		}
 	}
 	
