@@ -1,3 +1,5 @@
+package yumyum;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -580,22 +582,22 @@ public class OrderMenu extends JFrame {
 	
 	
 	public void printOrder() {
-			result += "<html>";
-			for(int i=0; i<menutable.getRowCount(); i++) {
-				if(i > 3) {
-					result += "...";
-					result += "<br />";
-					break;
-				}
-				result += menutable.getValueAt(i,0).toString();
-				result += " x";
-				result += menutable.getValueAt(i, 1);
+		result += "<html>";
+		for(int i=0; i<menutable.getRowCount(); i++) {
+			if(i > 3) {
+				result += "...";
 				result += "<br />";
-			}
-			finalprice += String.valueOf(totalprice);
-			result += "<br />";
-			result += finalprice + "¿ø";
-			result += "</html>";
+				break;
+		}
+		result += menutable.getValueAt(i,0).toString();
+		result += " x";
+		result += menutable.getValueAt(i, 1);
+		result += "<br />";
+		}
+		finalprice += String.valueOf(totalprice);
+		result += "<br />";
+		result += finalprice + "¿ø";
+		result += "</html>";
 	}
 	
 	public void printTable(int num, Table_main t_main) {
