@@ -5,23 +5,36 @@ package yumyum;
 //2.결제 완료 누르면 매출 디비에 올라가기 => 월매출, 메뉴별 매출
 //3. 몇번 테이블인지 O
 //4.복합계산 => 현금결제,카드 결제 완성 후 구현하기
+//5. 결제를 했을 경우 매출디비에 올라가고 중간디비 비워주기
+//중간디비 비워줄 때 TRUNCATE table_n 하면 될 듯
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 public class Pay extends JFrame implements ActionListener{
 	
 	private JPanel mainP; //main패널
+	private JPanel orderP; //주문기록 보여주는 패널
 	private JPanel numbers; //계산기 부분 패널
 	private JPanel payPanel; //결제창부분
 	private JPanel money; //총합계,할인율,받을 금액,받은 금액만 나타내는 부분
@@ -84,13 +97,28 @@ public class Pay extends JFrame implements ActionListener{
 	private int getMoney=0; //받은돈
 	private String getM=""; //받은돈
 	private int balance=0; //거스름돈
+	private int totalPrice=0; //총액
+	
+	private JLabel menu,mCount,mPrice; //메뉴,수량,가격
+	private JTextField menu_tf,mCount_tf,mPrice_tf; 
+	Object ob[][]=new Object[0][3]; //데이터표시 열만 나오게 설정
+	DefaultTableModel model; //데이터저장부분
+	JTable menuTable;
+	JScrollPane menuPane;
+	String header[]= {"메뉴","수량","가격"}; //컬럼명
 	
 	
-//	public static void main(String[] args) {
+	//데이터베이스 연동
+	Connection conn = null;
+	PreparedStatement pstmt=null;
+	ResultSet rs=null;
+	String sql="";
+	
+//	public static void main(String[] args) throws SQLException {
 //		Table_main table=new Table_main();
 //		table.setVisible(false);
 //		//OrderMenu om=new OrderMenu();
-//		new Pay();
+//		new Pay(table,"테이블");
 //	}
 	
 	public Pay(Table_main tm,String table_num) {
@@ -101,6 +129,7 @@ public class Pay extends JFrame implements ActionListener{
 		paying(tm,table_num);
 		setResizable(false);
 		setVisible(true);
+		//select(table_num,tm);
 	}
 	
 	public void paying(Table_main tm,String table_num) {
@@ -110,6 +139,22 @@ public class Pay extends JFrame implements ActionListener{
 		titleL.setFont(new Font("나눔바른고딕",Font.PLAIN,29));
 		titleL.setBounds(330,2,220,60);
 		mainP.add(titleL);
+		
+		//주문내역 나오도록 
+		orderP=new JPanel();
+		orderP.setBounds(20, 63, 430, 260);
+		orderP.setBackground(Color.WHITE);
+		orderP.setLayout(null);
+		model=new DefaultTableModel(header,0);
+		model.setColumnCount(3);
+		menuTable=new JTable(model);
+		menuPane=new JScrollPane(menuTable);
+		menuPane.setBounds(0, 0, 430, 260);
+		menuPane.getViewport().setBackground(Color.WHITE);
+		//connect();
+		select(table_num,tm);
+		orderP.add(menuPane);
+		mainP.add(orderP);
 		
 		//현상황만 알려주는 총금액,받을 금액,거스름돈 =>분할계산 할 경우
 		money = new JPanel();
@@ -125,7 +170,7 @@ public class Pay extends JFrame implements ActionListener{
 		giveMoney_ml.setBounds(118, 127, 80, 18);
 		getMoney_ml = new JLabel("받은 금액 : ");
 		getMoney_ml.setBounds(118, 176, 80, 18);		
-		total_price_tf = new JTextField("30000",10); //총금액 필드
+		total_price_tf = new JTextField(Integer.toString(totalPrice),10); //총금액 필드
 		total_price_tf.setBounds(220, 31, 116, 24);
 		discount_tf = new JTextField("0",10); //할인금액 필드
 		discount_tf.setBounds(220, 76, 116, 24);
@@ -149,7 +194,6 @@ public class Pay extends JFrame implements ActionListener{
 		money.add(getMoney_m_tf);
 		mainP.add(money);
 
-		//주문내역 나오도록 
 		
 		//결제내역 알려주는 
 		payPanel = new JPanel();
@@ -399,7 +443,141 @@ public class Pay extends JFrame implements ActionListener{
 			System.out.println("받은 돈: "+getMoney+"원");
 			System.out.println("거스름돈: "+balance+"원");
 		}
+		
+		//디비연동하고 거기에 있는 값 select하기
+		public void select(String table_num,Table_main tm){
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				String url="jdbc:mysql://localhost/yumyum1";
+				conn=DriverManager.getConnection(url,"gogi1","2209");
+				
+				if(table_num.equals("테이블1")) {
+					sql = "select * from table_1";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println(menu_name+", "+count+", "+price);
+						System.out.println("총액: "+totalPrice);
+					}
+				}else if(table_num.equals("테이블2")) {
+					sql = "select * from table_2";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println(menu_name+", "+count+", "+price);
+					}
+				}else if(table_num.equals("테이블3")) {
+					sql = "select * from table_3";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println(menu_name+", "+count+", "+price);
+					}
+				}else if(table_num.equals("테이블4")) {
+					sql = "select * from table_4";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;	
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println(menu_name+", "+count+", "+price);
+					}
+				}else if(table_num.equals("테이블5")) {
+					sql = "select * from table_5";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;	
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println(menu_name+", "+count+", "+price);
+					}
+				}else if(table_num.equals("테이블6")) {
+					sql = "select * from table_6";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;	
+						Object data[]= {menu_name,count,price};
+						
+						model.addRow(data);
+						System.out.println(menu_name+", "+count+", "+price);
+					}
+				}else if(table_num.equals("테이블7")) {
+					sql = "select * from table_7";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;	
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println(menu_name+", "+count+", "+price);
+					}
+				}else if(table_num.equals("테이블8")) {
+					sql = "select * from table_8";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;	
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println(menu_name+", "+count+", "+price);
+					}
+				}
+			}catch(Exception se){
+				System.out.println("select 실행오류: "+se);
+			}finally {
+				try {
+					conn.close();
+				}catch(SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
 
+	
 	class numberListener implements ActionListener{
 		//번호를 누르면 번호판과 현금결제 - 받을 금액 에 출력이 된다.
 		@Override
