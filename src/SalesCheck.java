@@ -18,7 +18,6 @@ public class SalesCheck extends JFrame{
 	
 	private JLabel title_l;	
 	
-	
 	public SalesCheck() {
 		setTitle("매출 확인");
 		setSize(1100, 682);

@@ -1,6 +1,7 @@
 
 //문제점: 결제를 하고 다시 돌아오면 창이 없어지지않고 새로생김
 import java.awt.Font;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -18,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Table_main extends JFrame {
+	
 	//정말로 프로그램 종료를 할 것인지 아닌지 확인
 	private JDialog checkOut;
 	//private JDialog choose; //주문할건지 결제한건지 선택
@@ -41,15 +43,14 @@ public class Table_main extends JFrame {
 	//글자 
 	private JLabel answer; //로그아웃 하시겠습니까?
 	
-	//private PayTest3 pay=new PayTest3();
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new Table_main();
+		Pay pay = new Pay();
+		new Table_main(pay);
 	}
-	public Table_main() {
-		initialize();
+	public Table_main(Pay pay) {
+		initialize(pay);
 	}
-	private void initialize() {
+	private void initialize(Pay pay) {
 		//데이터베이스 연동에 필요한 요소들
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -64,7 +65,7 @@ public class Table_main extends JFrame {
 		table1 = new JButton("테이블 1");
 		table1.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-				new OrderMenu("테이블 1", Table_main.this);
+				new OrderMenu("테이블 1", Table_main.this, pay);
 				setVisible(false);
 			}
 		});
@@ -73,7 +74,7 @@ public class Table_main extends JFrame {
 		table2 = new JButton("테이블 2");
 		table2.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			new OrderMenu("테이블 2", Table_main.this);
+			new OrderMenu("테이블 2", Table_main.this, pay);
 			setVisible(false);
 			}
 		});
@@ -82,7 +83,7 @@ public class Table_main extends JFrame {
 		table3 = new JButton("테이블 3");
 		table3.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			new OrderMenu("테이블 3", Table_main.this);
+			new OrderMenu("테이블 3", Table_main.this, pay);
 			setVisible(false);
 			}
 		});
@@ -91,7 +92,7 @@ public class Table_main extends JFrame {
 		table4 = new JButton("테이블 4");
 		table4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new OrderMenu("테이블 4", Table_main.this);
+				new OrderMenu("테이블 4", Table_main.this, pay);
 				setVisible(false);
 			}
 		});
@@ -100,7 +101,7 @@ public class Table_main extends JFrame {
 		table5 = new JButton("테이블 5");
 		table5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new OrderMenu("테이블 5", Table_main.this);
+				new OrderMenu("테이블 5", Table_main.this, pay);
 				setVisible(false);
 			}
 		});
@@ -109,7 +110,7 @@ public class Table_main extends JFrame {
 		table6 = new JButton("테이블 6");
 		table6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new OrderMenu("테이블 6", Table_main.this);
+				new OrderMenu("테이블 6", Table_main.this, pay);
 				setVisible(false);
 			}
 		});
@@ -118,7 +119,7 @@ public class Table_main extends JFrame {
 		table7 = new JButton("테이블 7");
 		table7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new OrderMenu("테이블 7", Table_main.this);
+				new OrderMenu("테이블 7", Table_main.this, pay);
 				setVisible(false);
 			}
 		});
@@ -127,7 +128,7 @@ public class Table_main extends JFrame {
 		table8 = new JButton("테이블 8");
 		table8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new OrderMenu("테이블 8", Table_main.this);
+				new OrderMenu("테이블 8", Table_main.this, pay);
 				setVisible(false);
 			}
 		});

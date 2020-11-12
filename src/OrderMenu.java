@@ -34,7 +34,8 @@ public class OrderMenu extends JFrame {
 	private JButton[] detailmenu;	//버튼 15개 생성
 	private JButton orderBtn; //주문버튼
 	private JButton cancelBtn; //결제버튼
-	private JButton before;
+	private JButton before;		//이전버튼
+	private JButton payBtn;
 	
 	private JTable menutable;	//주문내역 보여주는 JTable
 	
@@ -66,11 +67,11 @@ public class OrderMenu extends JFrame {
 	
 	//프로그램 완성되면 지울 main
 //	public static void main(String[] args) {
-//			new ordermenu(table_main);
+//			new OrderMenu(table_num, t_main, pay);
 //	}
 		
 	//생성자 메서드
-	public OrderMenu(String table_num, Table_main t_main) {
+	public OrderMenu(String table_num, Table_main t_main, Pay pay) {
 		
 		this.getContentPane().repaint();	//컴포넌트 재배치(새로고침 개념)
 		setTitle("주문 등록 화면");
@@ -87,10 +88,10 @@ public class OrderMenu extends JFrame {
 		title_label.setBounds(448, 2, 187, 60);
 		add(title_label);
 				
-		menu(table_num, t_main);
+		menu(table_num, t_main, pay);
 	}
 	
-	public void menu(String table_num, Table_main t_main) {	//메뉴 버튼들 생성
+	public void menu(String table_num, Table_main t_main, Pay pay) {	//메뉴 버튼들 생성
 		
 		menu_panel = new JPanel();
 		menu_panel.setBounds(490, 72, 600, 84);
@@ -212,13 +213,25 @@ public class OrderMenu extends JFrame {
 			}
 		});
 		
+		payBtn = new JButton("결제");
+		payBtn.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 1) {
+					setVisible(false);
+					pay.setVisible(true);
+				}
+			}
+		});
+		
 		orderBtn.setBounds(2, 386, 240, 60);
 		cancelBtn.setBounds(243,386, 240, 60);
 		before.setBounds(2, 550, 100, 30);
+		payBtn.setBounds(104, 550, 100, 30);
 
 		print_panel.add(orderBtn);
 		print_panel.add(cancelBtn);
 		print_panel.add(before);
+		print_panel.add(payBtn);
 		
 		order();
 		
@@ -612,7 +625,3 @@ public class OrderMenu extends JFrame {
 		}
 	}
 }
-
-
-
-
