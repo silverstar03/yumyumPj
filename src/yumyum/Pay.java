@@ -150,6 +150,7 @@ public class Pay extends JFrame implements ActionListener{
 		menuPane.setBounds(0, 0, 430, 260);
 		menuPane.getViewport().setBackground(Color.WHITE);
 		//connect();
+<<<<<<< HEAD
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			String url="jdbc:mysql://localhost/yumyum1";
@@ -282,6 +283,140 @@ public class Pay extends JFrame implements ActionListener{
 				se.printStackTrace();
 			}
 		}
+=======
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				String url="jdbc:mysql://localhost/yumyum1";
+				conn=DriverManager.getConnection(url,"gogi1","2209");
+				if(table_num.equals("테이블 1")) {
+					sql = "select * from table_1";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					String menu_name="";
+					int count=0;
+					int price=0;
+					while(rs.next()) {
+						//메뉴,개수,가격
+						menu_name=rs.getString("menu");
+						count=rs.getInt("num");
+						price = rs.getInt("price");
+						totalPrice+=count*price;
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println(menu_name+", "+count+", "+price);
+						System.out.println("총액: "+totalPrice);
+					}
+
+				}else if(table_num.equals("테이블 2")) {
+					sql = "select * from table_2";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println("테이블2 >> "+menu_name+", "+count+", "+price);
+					}
+				}else if(table_num.equals("테이블 3")) {
+					sql = "select * from table_3";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;	
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println("테이블3 >> "+menu_name+", "+count+", "+price);
+					}
+				}else if(table_num.equals("테이블 4")) {
+					sql = "select * from table_4";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;	
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println("테이블4>> "+menu_name+", "+count+", "+price);
+					}
+				}else if(table_num.equals("테이블 5")) {
+					sql = "select * from table_5";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;	
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println("테이블5 >> "+menu_name+", "+count+", "+price);
+					}
+				}else if(table_num.equals("테이블 6")) {
+					sql = "select * from table_6";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;	
+						Object data[]= {menu_name,count,price};
+						
+						model.addRow(data);
+						System.out.println("테이블6 >> "+menu_name+", "+count+", "+price);
+					}
+				}else if(table_num.equals("테이블 7")) {
+					sql = "select * from table_7";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;	
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println("테이블7 >> "+menu_name+", "+count+", "+price);
+					}
+				}else if(table_num.equals("테이블 8")) {
+					sql = "select * from table_8";
+					pstmt=conn.prepareStatement(sql);
+					rs=pstmt.executeQuery();
+					while(rs.next()) {
+						//메뉴,개수,가격
+						String menu_name=rs.getString("menu");
+						int count=rs.getInt("num");
+						int price = rs.getInt("price");
+						totalPrice+=count*price;	
+						Object data[]= {menu_name,count,price};
+						model.addRow(data);
+						System.out.println("테이블8 >> "+menu_name+", "+count+", "+price);
+					}
+				}
+			}catch(Exception se){
+				System.out.println("select 실행오류: "+se);
+			}finally {
+				try {
+					conn.close();
+				}catch(SQLException se) {
+					se.printStackTrace();
+				}
+			}
+>>>>>>> branch 'master' of https://github.com/silverstar03/yumyumPj.git
 		orderP.add(menuPane);
 		mainP.add(orderP);
 		//select(table_num,tm);
@@ -581,7 +716,11 @@ public class Pay extends JFrame implements ActionListener{
 		}
 		
 		//디비 비워주기
+<<<<<<< HEAD
 		public void del(String table_num){
+=======
+		public void del(String table_num) {
+>>>>>>> branch 'master' of https://github.com/silverstar03/yumyumPj.git
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				String url="jdbc:mysql://localhost/yumyum1";
