@@ -31,6 +31,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import yumyum.Table_main;
+import yumyum.OrderMenu;
+
 public class Pay extends JFrame implements ActionListener{
 	
 	private JPanel mainP; //main패널
@@ -114,13 +117,6 @@ public class Pay extends JFrame implements ActionListener{
 	ResultSet rs=null,rs2=null;
 	String sql="",sql_1="";
 	
-//	public static void main(String[] args) throws SQLException {
-//		Table_main table=new Table_main();
-//		table.setVisible(false);
-//		//OrderMenu om=new OrderMenu();
-//		new Pay(table,"테이블");
-//	}
-	
 	Table_main tt;
 	OrderMenu mm;
 	
@@ -128,7 +124,7 @@ public class Pay extends JFrame implements ActionListener{
 		setTitle("계산");
 		setSize(936,652);
 		setLocationRelativeTo(null); //창이 가운데에서 실행
-		tm.setVisible(false);
+//		tm.setVisible(false);
 		paying(tm,table_num);
 		setResizable(false);
 		setVisible(true);
@@ -158,7 +154,7 @@ public class Pay extends JFrame implements ActionListener{
 				Class.forName("com.mysql.jdbc.Driver");
 				String url="jdbc:mysql://localhost/yumyum1";
 				conn=DriverManager.getConnection(url,"gogi1","2209");
-				if(table_num.equals("테이블1")) {
+				if(table_num.equals("테이블 1")) {
 					sql = "select * from table_1";
 					pstmt=conn.prepareStatement(sql);
 					rs=pstmt.executeQuery();
@@ -177,7 +173,7 @@ public class Pay extends JFrame implements ActionListener{
 						System.out.println("총액: "+totalPrice);
 					}
 
-				}else if(table_num.equals("테이블2")) {
+				}else if(table_num.equals("테이블 2")) {
 					sql = "select * from table_2";
 					pstmt=conn.prepareStatement(sql);
 					rs=pstmt.executeQuery();
@@ -191,7 +187,7 @@ public class Pay extends JFrame implements ActionListener{
 						model.addRow(data);
 						System.out.println("테이블2 >> "+menu_name+", "+count+", "+price);
 					}
-				}else if(table_num.equals("테이블3")) {
+				}else if(table_num.equals("테이블 3")) {
 					sql = "select * from table_3";
 					pstmt=conn.prepareStatement(sql);
 					rs=pstmt.executeQuery();
@@ -205,7 +201,7 @@ public class Pay extends JFrame implements ActionListener{
 						model.addRow(data);
 						System.out.println("테이블3 >> "+menu_name+", "+count+", "+price);
 					}
-				}else if(table_num.equals("테이블4")) {
+				}else if(table_num.equals("테이블 4")) {
 					sql = "select * from table_4";
 					pstmt=conn.prepareStatement(sql);
 					rs=pstmt.executeQuery();
@@ -219,7 +215,7 @@ public class Pay extends JFrame implements ActionListener{
 						model.addRow(data);
 						System.out.println("테이블4>> "+menu_name+", "+count+", "+price);
 					}
-				}else if(table_num.equals("테이블5")) {
+				}else if(table_num.equals("테이블 5")) {
 					sql = "select * from table_5";
 					pstmt=conn.prepareStatement(sql);
 					rs=pstmt.executeQuery();
@@ -233,7 +229,7 @@ public class Pay extends JFrame implements ActionListener{
 						model.addRow(data);
 						System.out.println("테이블5 >> "+menu_name+", "+count+", "+price);
 					}
-				}else if(table_num.equals("테이블6")) {
+				}else if(table_num.equals("테이블 6")) {
 					sql = "select * from table_6";
 					pstmt=conn.prepareStatement(sql);
 					rs=pstmt.executeQuery();
@@ -248,7 +244,7 @@ public class Pay extends JFrame implements ActionListener{
 						model.addRow(data);
 						System.out.println("테이블6 >> "+menu_name+", "+count+", "+price);
 					}
-				}else if(table_num.equals("테이블7")) {
+				}else if(table_num.equals("테이블 7")) {
 					sql = "select * from table_7";
 					pstmt=conn.prepareStatement(sql);
 					rs=pstmt.executeQuery();
@@ -262,7 +258,7 @@ public class Pay extends JFrame implements ActionListener{
 						model.addRow(data);
 						System.out.println("테이블7 >> "+menu_name+", "+count+", "+price);
 					}
-				}else if(table_num.equals("테이블8")) {
+				}else if(table_num.equals("테이블 8")) {
 					sql = "select * from table_8";
 					pstmt=conn.prepareStatement(sql);
 					rs=pstmt.executeQuery();
@@ -524,7 +520,7 @@ public class Pay extends JFrame implements ActionListener{
 
 	//결제 완료 창
 	//문제점: 결제버튼을 누르면 거스름돈 text가 사라진다.
-		public void PayOk(Table_main tm,String table_num) {
+		public void PayOk(Table_main tt,String table_num) {
 			payOk = new JDialog(this,"결제완료",true);
 			payOk.setSize(276,179);
 			payOk.setLayout(null);
@@ -542,22 +538,29 @@ public class Pay extends JFrame implements ActionListener{
 			payOk.setLocationRelativeTo(null);
 			payOk.setVisible(true);
 			
-			if(table_num.equals("테이블1")) {
-				tm.Table1("테이블1");del("테이블1");tm.setVisible(true);
-			}else if(table_num.equals("테이블2")) {
-				tm.Table2("테이블2");del("테이블2");tm.setVisible(true);
-			}else if(table_num.equals("테이블3")) {
-				tm.Table3("테이블3");del("테이블3");tm.setVisible(true);
-			}else if(table_num.equals("테이블4")) {
-				tm.Table4("테이블4");del("테이블4");tm.setVisible(true);
-			}else if(table_num.equals("테이블5")) {
-				tm.Table5("테이블5");del("테이블5");tm.setVisible(true);
-			}else if(table_num.equals("테이블6")) {
-				tm.Table6("테이블6");del("테이블6");tm.setVisible(true);
-			}else if(table_num.equals("테이블7")) {
-				tm.Table7("테이블7");del("테이블7");tm.setVisible(true);
-			}else if(table_num.equals("테이블8")) {
-				tm.Table8("테이블8");del("테이블8");tm.setVisible(true);
+			if(table_num.equals("테이블 1")) {
+				tt.Table1("테이블 1");del("테이블 1");tt.setVisible(true);
+			}
+			else if(table_num.equals("테이블 2")) {
+				tt.Table2("테이블 2");del("테이블 2");tt.setVisible(true);
+			}
+			else if(table_num.equals("테이블 3")) {
+				tt.Table3("테이블 3");del("테이블 3");tt.setVisible(true);
+			}
+			else if(table_num.equals("테이블 4")) {
+				tt.Table4("테이블 4");del("테이블 4");tt.setVisible(true);
+			}
+			else if(table_num.equals("테이블 5")) {
+				tt.Table5("테이블 5");del("테이블 5");tt.setVisible(true);
+			}
+			else if(table_num.equals("테이블 6")) {
+				tt.Table6("테이블 6");del("테이블 6");tt.setVisible(true);
+			}
+			else if(table_num.equals("테이블 7")) {
+				tt.Table7("테이블 7");del("테이블 7");tt.setVisible(true);
+			}
+			else if(table_num.equals("테이블 8")) {
+				tt.Table8("테이블 8");del("테이블 8");tt.setVisible(true);
 			}
 		}
 		
@@ -608,7 +611,7 @@ public class Pay extends JFrame implements ActionListener{
 				}
 			}
 		}
-		
+
 	
 	class numberListener implements ActionListener{
 		//번호를 누르면 번호판과 현금결제 - 받을 금액 에 출력이 된다.

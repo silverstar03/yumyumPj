@@ -73,9 +73,17 @@ public class OrderMenu extends JFrame {
 	
 	Table_main t_main;
 	
+	Pay pay1;
+	Pay pay2;
+	Pay pay3;
+	Pay pay4;
+	Pay pay5;
+	Pay pay6;
+	Pay pay7;
+	Pay pay8;
 		
 	//생성자 메서드
-	public OrderMenu(String table_num, Table_main t_main, Pay pay) {
+	public OrderMenu(String table_num, Table_main t_main) {
 		
 		this.getContentPane().repaint();	//컴포넌트 재배치(새로고침 개념)
 		setTitle("주문 등록 화면");
@@ -92,10 +100,10 @@ public class OrderMenu extends JFrame {
 		title_label.setBounds(448, 2, 187, 60);
 		add(title_label);
 				
-		menu(table_num, t_main, pay);
+		menu(table_num, t_main);
 	}
 	
-	public void menu(String table_num, Table_main t_main, Pay pay) {	//메뉴 버튼들 생성
+	public void menu(String table_num, Table_main t_main) {	//메뉴 버튼들 생성
 		
 		menu_panel = new JPanel();
 		menu_panel.setBounds(490, 72, 600, 84);
@@ -224,7 +232,40 @@ public class OrderMenu extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 1) {
 					setVisible(false);
-					pay.setVisible(true);
+					
+					if(table_num.equals("테이블 1")) {
+						pay1=new Pay(t_main,table_num);
+						pay1.setVisible(true);
+					}
+					else if(table_num.equals("테이블 2")) {
+						pay2=new Pay(t_main,table_num);
+						pay2.setVisible(true);
+					}
+					else if(table_num.equals("테이블 3")) {
+						pay3=new Pay(t_main,table_num);
+						pay3.setVisible(true);
+					}
+					else if(table_num.equals("테이블 4")) {
+						pay4=new Pay(t_main,table_num);
+						pay4.setVisible(true);
+					}
+					else if(table_num.equals("테이블 5")) {
+						pay5=new Pay(t_main,table_num);
+						pay5.setVisible(true);
+					}
+					else if(table_num.equals("테이블 6")) {
+						pay6=new Pay(t_main,table_num);
+						pay6.setVisible(true);
+					}
+					else if(table_num.equals("테이블 7")) {
+						pay7=new Pay(t_main,table_num);
+						pay7.setVisible(true);
+					}
+					else if(table_num.equals("테이블 8")) {
+						pay8=new Pay(t_main,table_num);
+						pay8.setVisible(true);
+					}
+					
 				}
 			}
 		});
