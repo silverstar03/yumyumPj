@@ -305,7 +305,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2203");
+			conn = DriverManager.getConnection(url,"gogi1","2209");
 				
 			if(num == 0) {
 				sql2 = "select * from meatmenu";
@@ -563,7 +563,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2203");
+			conn = DriverManager.getConnection(url,"gogi1","2209");
 			pstmt = conn.prepareStatement(sql2);	//java statement 생성
 			rs = pstmt.executeQuery(sql2);	//쿼리 execute, 객체 형성
 			cnt[num][menu]++;
@@ -661,7 +661,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2203");
+			conn = DriverManager.getConnection(url,"gogi1","2209");
 			sql = "insert into table_"+Integer.toString(tableNum)+"(menu, num, price) values(?,?,?)";
 			pstmt = conn.prepareStatement(sql);	//java statement 생성
 			
@@ -723,7 +723,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2203");
+			conn = DriverManager.getConnection(url,"gogi1","2209");
 			String t_num = Integer.toString(tableNum);
 			
 			sql = "delete from table_" + t_num + ";";

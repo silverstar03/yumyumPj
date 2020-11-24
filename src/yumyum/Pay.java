@@ -1,11 +1,9 @@
 package yumyum;
 //해야될것 
-//1.결제취소 누르면 결제 취소되기 + 전체주문 취소
-//1-2.계산
+//1.결제취소 누르면 결제 취소되기 
 //2.결제 완료 누르면 매출 디비에 올라가기 => 월매출, 메뉴별 매출
-//3. 몇번 테이블인지 O
 //4.복합계산 => 현금결제,카드 결제 완성 후 구현하기
-//5. 결제를 했을 경우 매출디비에 올라가고 중간디비 비워주기
+//결제 완벽하게 해놓기 /컸을때 작았을 때 같을때
 //중간디비 비워줄 때 TRUNCATE table_n 하면 될 듯
 import java.awt.Color;
 import java.awt.Font;
@@ -17,17 +15,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -98,12 +94,10 @@ public class Pay extends JFrame implements ActionListener{
 	private int total=0; //총가격
 
 	private int getMoney=0; //받은돈
-	private String getM=""; //받은돈
+	private int giveMoney=0; //받을돈
 	private int balance=0; //거스름돈
 	private int totalPrice=0; //총액
 	
-	private JLabel menu,mCount,mPrice; //메뉴,수량,가격
-	private JTextField menu_tf,mCount_tf,mPrice_tf; 
 	Object ob[][]=new Object[0][3]; //데이터표시 열만 나오게 설정
 	DefaultTableModel model; //데이터저장부분
 	JTable menuTable;
@@ -153,7 +147,7 @@ public class Pay extends JFrame implements ActionListener{
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				String url="jdbc:mysql://localhost/yumyum1";
-				conn=DriverManager.getConnection(url,"gogi1","2203");
+				conn=DriverManager.getConnection(url,"gogi1","2209");
 				if(table_num.equals("테이블 1")) {
 					sql = "select * from table_1";
 					pstmt=conn.prepareStatement(sql);
@@ -166,7 +160,11 @@ public class Pay extends JFrame implements ActionListener{
 						menu_name=rs.getString("menu");
 						count=rs.getInt("num");
 						price = rs.getInt("price");
-						totalPrice+=count*price;
+						if(count==1) {
+							totalPrice+=count*price;
+						}else if(count>=2) {
+							totalPrice+=price;
+						}						
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
 						System.out.println(menu_name+", "+count+", "+price);
@@ -182,7 +180,11 @@ public class Pay extends JFrame implements ActionListener{
 						String menu_name=rs.getString("menu");
 						int count=rs.getInt("num");
 						int price = rs.getInt("price");
-						totalPrice+=count*price;
+						if(count==1) {
+							totalPrice+=count*price;
+						}else if(count>=2) {
+							totalPrice+=price;
+						}
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
 						System.out.println("테이블2 >> "+menu_name+", "+count+", "+price);
@@ -196,7 +198,11 @@ public class Pay extends JFrame implements ActionListener{
 						String menu_name=rs.getString("menu");
 						int count=rs.getInt("num");
 						int price = rs.getInt("price");
-						totalPrice+=count*price;	
+						if(count==1) {
+							totalPrice+=count*price;
+						}else if(count>=2) {
+							totalPrice+=price;
+						}
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
 						System.out.println("테이블3 >> "+menu_name+", "+count+", "+price);
@@ -210,7 +216,11 @@ public class Pay extends JFrame implements ActionListener{
 						String menu_name=rs.getString("menu");
 						int count=rs.getInt("num");
 						int price = rs.getInt("price");
-						totalPrice+=count*price;	
+						if(count==1) {
+							totalPrice+=count*price;
+						}else if(count>=2) {
+							totalPrice+=price;
+						}
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
 						System.out.println("테이블4>> "+menu_name+", "+count+", "+price);
@@ -224,7 +234,11 @@ public class Pay extends JFrame implements ActionListener{
 						String menu_name=rs.getString("menu");
 						int count=rs.getInt("num");
 						int price = rs.getInt("price");
-						totalPrice+=count*price;	
+						if(count==1) {
+							totalPrice+=count*price;
+						}else if(count>=2) {
+							totalPrice+=price;
+						}
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
 						System.out.println("테이블5 >> "+menu_name+", "+count+", "+price);
@@ -238,7 +252,11 @@ public class Pay extends JFrame implements ActionListener{
 						String menu_name=rs.getString("menu");
 						int count=rs.getInt("num");
 						int price = rs.getInt("price");
-						totalPrice+=count*price;	
+						if(count==1) {
+							totalPrice+=count*price;
+						}else if(count>=2) {
+							totalPrice+=price;
+						}	
 						Object data[]= {menu_name,count,price};
 						
 						model.addRow(data);
@@ -253,7 +271,11 @@ public class Pay extends JFrame implements ActionListener{
 						String menu_name=rs.getString("menu");
 						int count=rs.getInt("num");
 						int price = rs.getInt("price");
-						totalPrice+=count*price;	
+						if(count==1) {
+							totalPrice+=count*price;
+						}else if(count>=2) {
+							totalPrice+=price;
+						}	
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
 						System.out.println("테이블7 >> "+menu_name+", "+count+", "+price);
@@ -267,7 +289,11 @@ public class Pay extends JFrame implements ActionListener{
 						String menu_name=rs.getString("menu");
 						int count=rs.getInt("num");
 						int price = rs.getInt("price");
-						totalPrice+=count*price;	
+						if(count==1) {
+							totalPrice+=count*price;
+						}else if(count>=2) {
+							totalPrice+=price;
+						}
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
 						System.out.println("테이블8 >> "+menu_name+", "+count+", "+price);
@@ -284,8 +310,6 @@ public class Pay extends JFrame implements ActionListener{
 			}
 		orderP.add(menuPane);
 		mainP.add(orderP);
-		//select(table_num,tm);
-		//현상황만 알려주는 총금액,받을 금액,거스름돈 =>분할계산 할 경우
 		money = new JPanel();
 		money.setBounds(22, 348, 430, 231);
 		money.setBackground(Color.WHITE);
@@ -331,7 +355,6 @@ public class Pay extends JFrame implements ActionListener{
 		payPanel.setLayout(null);
 		
 		payLabel=new JLabel("[결제창]",JLabel.CENTER);
-//		payLabel.setBounds(14, 1, 424, 44);
 		payLabel.setBounds(14, 1, 100, 44);
 		payLabel.setFont(new Font("나눔바른고딕",Font.PLAIN,17));
 		
@@ -342,7 +365,7 @@ public class Pay extends JFrame implements ActionListener{
 		instalmentL=new JLabel("");
 		
 		//받을금액 보여주는 텍스트필드
-		//받을 금액 == 총금액 계산할 때 받을금액을 int로 변환해서 계산하기 
+		//받을 금액 == 총금액 계산할 때 받을 금액을 int로 변환해서 계산하기 
 		giveMoneytf = new JTextField(total_price_tf.getText(),7);
 		giveMoneytf.setEditable(false);
 		giveMoneytf.setVisible(false);
@@ -367,7 +390,7 @@ public class Pay extends JFrame implements ActionListener{
 		cardPay.setBounds(290,42,110,137);
 		cardPay.setVisible(false);
 		//현금결제 다이얼로그
-
+		
 		payPanel.add(payLabel); payPanel.add(cashPay); payPanel.add(cardPay);
 		mainP.add(payPanel);
 		
@@ -391,7 +414,6 @@ public class Pay extends JFrame implements ActionListener{
 				giveMoneyL.setBounds(64, 42, 83, 30);
 				
 				//받을금액 tf
-				//giveMoneytf.setText("30000");
 				giveMoneytf.setBounds(148,42,99,30);
 				giveMoneytf.setVisible(true);
 				
@@ -423,8 +445,7 @@ public class Pay extends JFrame implements ActionListener{
 						show_money.setText("");
 						//getMoneytf.setText("");
 						instalmenttf.setText("");
-						calculate();
-						PayOk(tm,table_num);
+						calculate(tm,table_num);
 					}
 				});
 			}
@@ -453,6 +474,9 @@ public class Pay extends JFrame implements ActionListener{
 				instalmenttf.setBounds(148, 114, 99, 30);
 				instalmenttf.setVisible(true);
 				
+				total_price_tf.setText(giveMoneytf.getText());
+				discount_tf.setText("0");
+				giveMoney_m_tf.setText(giveMoneytf.getText());
 				
 				payPanel.add(giveMoneyL); 
 				payPanel.add(giveMoneytf);
@@ -466,7 +490,7 @@ public class Pay extends JFrame implements ActionListener{
 					public void actionPerformed(ActionEvent e) {
 						//new PayTest2();
 						pt=new cardPaying();
-						PayOk(tm,table_num);
+						PayOk(tm,table_num,true);
 					}
 				});
 			}
@@ -519,8 +543,7 @@ public class Pay extends JFrame implements ActionListener{
 	}
 
 	//결제 완료 창
-	//문제점: 결제버튼을 누르면 거스름돈 text가 사라진다.
-		public void PayOk(Table_main tt,String table_num) {
+		public void PayOk(Table_main tt,String table_num,boolean flag) {
 			payOk = new JDialog(this,"결제완료",true);
 			payOk.setSize(276,179);
 			payOk.setLayout(null);
@@ -533,68 +556,96 @@ public class Pay extends JFrame implements ActionListener{
 			okBtn.setBounds(78,93,105,27);
 			payOk.add(okSign); payOk.add(okBtn);
 			//확인 버튼을 누르면 다이얼로그 창과 Pay닫히기
-			okBtn.addActionListener(new okBtnListener());
-			
-			payOk.setLocationRelativeTo(null);
-			payOk.setVisible(true);
-			
-			if(table_num.equals("테이블 1")) {
-				tt.Table1("테이블 1");del("테이블 1");tt.setVisible(true);
-			}
-			else if(table_num.equals("테이블 2")) {
-				tt.Table2("테이블 2");del("테이블 2");tt.setVisible(true);
-			}
-			else if(table_num.equals("테이블 3")) {
-				tt.Table3("테이블 3");del("테이블 3");tt.setVisible(true);
-			}
-			else if(table_num.equals("테이블 4")) {
-				tt.Table4("테이블 4");del("테이블 4");tt.setVisible(true);
-			}
-			else if(table_num.equals("테이블 5")) {
-				tt.Table5("테이블 5");del("테이블 5");tt.setVisible(true);
-			}
-			else if(table_num.equals("테이블 6")) {
-				tt.Table6("테이블 6");del("테이블 6");tt.setVisible(true);
-			}
-			else if(table_num.equals("테이블 7")) {
-				tt.Table7("테이블 7");del("테이블 7");tt.setVisible(true);
-			}
-			else if(table_num.equals("테이블 8")) {
-				tt.Table8("테이블 8");del("테이블 8");tt.setVisible(true);
+			if(flag==true) {
+				okBtn.addActionListener(new okBtnListener());
+				
+				payOk.setLocationRelativeTo(null);
+				payOk.setVisible(true);
+				
+				if(table_num.equals("테이블 1")) {
+					tt.Table1("테이블 1");del("테이블 1");tt.setVisible(true);
+				}
+				else if(table_num.equals("테이블 2")) {
+					tt.Table2("테이블 2");del("테이블 2");tt.setVisible(true);
+				}
+				else if(table_num.equals("테이블 3")) {
+					tt.Table3("테이블 3");del("테이블 3");tt.setVisible(true);
+				}
+				else if(table_num.equals("테이블 4")) {
+					tt.Table4("테이블 4");del("테이블 4");tt.setVisible(true);
+				}
+				else if(table_num.equals("테이블 5")) {
+					tt.Table5("테이블 5");del("테이블 5");tt.setVisible(true);
+				}
+				else if(table_num.equals("테이블 6")) {
+					tt.Table6("테이블 6");del("테이블 6");tt.setVisible(true);
+				}
+				else if(table_num.equals("테이블 7")) {
+					tt.Table7("테이블 7");del("테이블 7");tt.setVisible(true);
+				}
+				else if(table_num.equals("테이블 8")) {
+					tt.Table8("테이블 8");del("테이블 8");tt.setVisible(true);
+				}
+
 			}
 		}
 		
 		//계산하는 메서드
-		public void calculate() {
-			total=Integer.parseInt(giveMoneytf.getText());
+		public void calculate(Table_main tm,String table_num) {
+			//결제해야하는 총액
+			total=Integer.parseInt(giveMoneytf.getText().trim()); //52000
+			System.out.println("총금액: "+total);
 			//수정필요  다시 눌렀을 경우 하나씩 지워지는 버튼도 필요
-			getMoney=Integer.parseInt(getMoneytf.getText().trim()); //여기서 clear를 한번 누르고 하면 공백+숫자라서 오류발생 
-			if(total>=getMoney) {
-				balance=total-getMoney;
+			//받은 돈
+			getMoney=Integer.parseInt(getMoneytf.getText().trim()); //trim사용하여 앞뒤 공백 제거
+			
+			//1. 받은돈>=총액  거스름돈 반환
+			//2. 만약에 0원을 입력했을 경우 => 받은 돈 입력해달라고 다이얼로그 뜨게 하기
+			//3. 총액 >= 받은돈 : 더 받아야되는경우 1번 상황이 될 때까지 종료시키면 안됨
+			
+			//1
+			if(getMoney>=total) {
+				balance=getMoney-total;
+				balancetf.setText(Integer.toString(balance));
+				JOptionPane.showMessageDialog(this, "거스름돈: "+Integer.toString(balance)+" 원","거스름돈",
+						JOptionPane.INFORMATION_MESSAGE);
+				PayOk(tm,table_num,true);
 			}
-			balancetf.setText(Integer.toString(balance));
-			//확인차
-			System.out.println("[현금결제]");
-			System.out.println("총금액:"+total+"원");
-			System.out.println("받은 돈: "+getMoney+"원");
-			System.out.println("거스름돈: "+balance+"원");
+			
+			//2 만약에 0원일경우 (입력안하고 눌렀을 때)
+			if(getMoneytf.getText().equals("0")) {
+				JOptionPane.showMessageDialog(this, "돈을 입력하세요!","Message",JOptionPane.ERROR_MESSAGE);
+				PayOk(tm,table_num,false);
+			}
+						
+			if(total>getMoney) {
+				giveMoney=total-getMoney; //giveMoney=2000
+				giveMoney_m_tf.setText(Integer.toString(giveMoney)); //받을 금액 2000
+				giveMoneytf.setText(Integer.toString(giveMoney)); 
+				getMoney_m_tf.setText(Integer.toString(getMoney)); //받은 금액 => 내가 방금 받은 돈
+				total=Integer.parseInt(giveMoneytf.getText().trim());
+				System.out.println("돈을 더 입력해야됩니다.");
+				getMoneytf.setText("");
+			}
+			
 		}
+		//매출디비에 넣어주기
 		
 		//디비 비워주기
 		public void del(String table_num) {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				String url="jdbc:mysql://localhost/yumyum1";
-				conn=DriverManager.getConnection(url,"gogi1","2203");
+				conn=DriverManager.getConnection(url,"gogi1","2209");
 				switch (table_num) {
-				case "테이블1": sql="truncate table_1;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
-				case "테이블2": sql="truncate table_2;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
-				case "테이블3": sql="truncate table_3;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
-				case "테이블4": sql="truncate table_4;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
-				case "테이블5": sql="truncate table_5;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
-				case "테이블6": sql="truncate table_6;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
-				case "테이블7": sql="truncate table_7;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
-				case "테이블8": sql="truncate table_8;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
+				case "테이블 1": sql="truncate table_1;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
+				case "테이블 2": sql="truncate table_2;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
+				case "테이블 3": sql="truncate table_3;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
+				case "테이블 4": sql="truncate table_4;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
+				case "테이블 5": sql="truncate table_5;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
+				case "테이블 6": sql="truncate table_6;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
+				case "테이블 7": sql="truncate table_7;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
+				case "테이블 8": sql="truncate table_8;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
 			}
 			}catch(ClassNotFoundException e) {
 				System.out.println("드라이버로딩실패");
@@ -692,6 +743,23 @@ public class Pay extends JFrame implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent okay) {
 			if(okay.getSource()==okBtn) {
+				//매출디비에 올려주고 
+				//나머지 요소들 초기화해주기
+				total_price_tf.setText(""); //총합계
+				discount_tf.setText(""); //할인금액
+				giveMoney_m_tf.setText(""); //받을 금액
+				getMoney_m_tf.setText(""); //받은 금액
+				
+
+				giveMoneytf.setText(""); //받을돈
+				getMoneytf.setText(""); //받은 돈
+				balancetf.setText(""); //거스름돈
+				instalmenttf.setText(""); //할부
+				
+				total=0;
+				getMoney=0;
+				balance=0;
+				
 				payOk.setVisible(false);
 				setVisible(false);
 			}
