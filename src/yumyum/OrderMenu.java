@@ -99,10 +99,10 @@ public class OrderMenu extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);	//창크기 조절 X
 		getContentPane().setLayout(null); 	//자유롭게 위치 조정 가능
-		getContentPane().setBackground(new Color(231, 230, 230));
+		getContentPane().setBackground(new Color(249, 228, 183));
 		
 		title_label = new JLabel("주문 등록");
-		title_label.setFont(new Font("문체부 쓰기 정체", Font.PLAIN, 40));
+		title_label.setFont(new Font("나눔바른고딕", Font.PLAIN, 40));
 		title_label.setBounds(448, 2, 187, 60);
 		add(title_label);
 				
@@ -125,8 +125,9 @@ public class OrderMenu extends JFrame {
 		for (int i = 0; i<4; i++) {
 			menu_panel.add(menucategory[i] = new JButton(""));
 			
-			menucategory[i].setBackground(new Color(135,152,168));
+			menucategory[i].setBackground(new Color(180,166,150));
 			menucategory[i].setBorder(BorderFactory.createLineBorder(Color.WHITE));
+			menucategory[i].setFont(new Font("나눔바른고딕", Font.PLAIN, 20));
 		}
 		
 		menucategory[0].setText("고기류");
@@ -164,14 +165,15 @@ public class OrderMenu extends JFrame {
 		for (int i = 0; i<15; i++) {
 			detail_panel.add(detailmenu[i] = new JButton(""));
 			
-			detailmenu[i].setBackground(new Color(179, 197, 207));
+			detailmenu[i].setBackground(new Color(179, 146, 131));
 			detailmenu[i].setBorder(BorderFactory.createLineBorder(Color.WHITE));//Border컬러 지정
+			detailmenu[i].setFont(new Font("나눔바른고딕", Font.PLAIN, 15));
 		}
 		
 		print_panel = new JPanel();
 		print_panel.setBounds(0, 71, 486, 582);
 		print_panel.setLayout(null);
-		print_panel.setBackground(new Color(231, 230, 230));
+		print_panel.setBackground(new Color(249, 228, 183));
 		
 		list.add("메뉴");
 		list.add("개수");
@@ -189,13 +191,18 @@ public class OrderMenu extends JFrame {
 		menutable = new JTable(model);
 		menutable.getTableHeader().setReorderingAllowed(false); //table header 이동 불가
 		menutable.getTableHeader().setResizingAllowed(false); // 크기 조절 불가
+		menutable.setRowHeight(25);
 		scrollPane = new JScrollPane(menutable);
 		
 		scrollPane.setBounds(0, 0, 486, 385);
 		scrollPane.getViewport().setBackground(Color.WHITE);
 		print_panel.add(scrollPane);
 		
-		orderBtn = new JButton("주문");
+		orderBtn = new JButton("주       문");
+		orderBtn.setBackground(new Color(207,185,151));
+		orderBtn.setBorderPainted(false);
+		orderBtn.setForeground(Color.WHITE);
+		orderBtn.setFont(new Font("나눔바른고딕", Font.PLAIN, 30));
 		orderBtn.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -211,8 +218,11 @@ public class OrderMenu extends JFrame {
 			}
 		});
 		
-		
-		cancelBtn = new JButton("취소");
+		cancelBtn = new JButton("취       소");
+		cancelBtn.setBackground(new Color(207,185,151));
+		cancelBtn.setBorderPainted(false);
+		cancelBtn.setForeground(Color.WHITE);
+		cancelBtn.setFont(new Font("나눔바른고딕", Font.PLAIN, 30));
 		cancelBtn.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 1) {
@@ -223,7 +233,11 @@ public class OrderMenu extends JFrame {
 			}
 		});
 		
-		before = new JButton("이전");
+		before = new JButton("이   전");
+		before.setBorderPainted(false);
+		before.setForeground(Color.WHITE);
+		before.setBackground(new Color(183,184,176));
+		before.setFont(new Font("나눔바른고딕", Font.PLAIN, 20));
 		before.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 1) {
@@ -233,7 +247,11 @@ public class OrderMenu extends JFrame {
 			}
 		});
 		
-		payBtn = new JButton("결제");
+		payBtn = new JButton("결   제");
+		payBtn.setBorderPainted(false);
+		payBtn.setForeground(Color.WHITE);
+		payBtn.setBackground(new Color(183,184,176));
+		payBtn.setFont(new Font("나눔바른고딕", Font.PLAIN, 20));
 		payBtn.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 1) {
@@ -305,7 +323,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2209");
+			conn = DriverManager.getConnection(url,"gogi1","2203");
 				
 			if(num == 0) {
 				sql2 = "select * from meatmenu";
@@ -563,7 +581,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2209");
+			conn = DriverManager.getConnection(url,"gogi1","2203");
 			pstmt = conn.prepareStatement(sql2);	//java statement 생성
 			rs = pstmt.executeQuery(sql2);	//쿼리 execute, 객체 형성
 			cnt[num][menu]++;
@@ -661,7 +679,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2209");
+			conn = DriverManager.getConnection(url,"gogi1","2203");
 			sql = "insert into table_"+Integer.toString(tableNum)+"(menu, num, price) values(?,?,?)";
 			pstmt = conn.prepareStatement(sql);	//java statement 생성
 			
@@ -723,7 +741,7 @@ public class OrderMenu extends JFrame {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
-			conn = DriverManager.getConnection(url,"gogi1","2209");
+			conn = DriverManager.getConnection(url,"gogi1","2203");
 			String t_num = Integer.toString(tableNum);
 			
 			sql = "delete from table_" + t_num + ";";
