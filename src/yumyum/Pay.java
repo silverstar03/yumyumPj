@@ -15,6 +15,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -97,6 +99,10 @@ public class Pay extends JFrame implements ActionListener{
 	private int giveMoney=0; //받을돈
 	private int balance=0; //거스름돈
 	private int totalPrice=0; //총액
+	
+	String tYear="";
+	String tMonth="";
+	String tDate="";
 	
 	Object ob[][]=new Object[0][3]; //데이터표시 열만 나오게 설정
 	DefaultTableModel model; //데이터저장부분
@@ -563,28 +569,28 @@ public class Pay extends JFrame implements ActionListener{
 				payOk.setVisible(true);
 				
 				if(table_num.equals("테이블 1")) {
-					tt.Table1("테이블 1");del("테이블 1");tt.setVisible(true);
+					tt.Table1("테이블 1");addToMaechul();del("테이블 1");tt.setVisible(true);
 				}
 				else if(table_num.equals("테이블 2")) {
-					tt.Table2("테이블 2");del("테이블 2");tt.setVisible(true);
+					tt.Table2("테이블 2");addToMaechul();del("테이블 2");tt.setVisible(true);
 				}
 				else if(table_num.equals("테이블 3")) {
-					tt.Table3("테이블 3");del("테이블 3");tt.setVisible(true);
+					tt.Table3("테이블 3");addToMaechul();del("테이블 3");tt.setVisible(true);
 				}
 				else if(table_num.equals("테이블 4")) {
-					tt.Table4("테이블 4");del("테이블 4");tt.setVisible(true);
+					tt.Table4("테이블 4");addToMaechul();del("테이블 4");tt.setVisible(true);
 				}
 				else if(table_num.equals("테이블 5")) {
-					tt.Table5("테이블 5");del("테이블 5");tt.setVisible(true);
+					tt.Table5("테이블 5");addToMaechul();del("테이블 5");tt.setVisible(true);
 				}
 				else if(table_num.equals("테이블 6")) {
-					tt.Table6("테이블 6");del("테이블 6");tt.setVisible(true);
+					tt.Table6("테이블 6");addToMaechul();del("테이블 6");tt.setVisible(true);
 				}
 				else if(table_num.equals("테이블 7")) {
-					tt.Table7("테이블 7");del("테이블 7");tt.setVisible(true);
+					tt.Table7("테이블 7");addToMaechul();del("테이블 7");tt.setVisible(true);
 				}
 				else if(table_num.equals("테이블 8")) {
-					tt.Table8("테이블 8");del("테이블 8");tt.setVisible(true);
+					tt.Table8("테이블 8");addToMaechul();del("테이블 8");tt.setVisible(true);
 				}
 
 			}
@@ -630,6 +636,55 @@ public class Pay extends JFrame implements ActionListener{
 			
 		}
 		//매출디비에 넣어주기
+		
+		public void addToMaechul() {
+			SimpleDateFormat tyear = new SimpleDateFormat ( "yyyy");
+			SimpleDateFormat tmonth = new SimpleDateFormat ( "MM");
+			SimpleDateFormat tdate = new SimpleDateFormat ( "dd");
+			
+			Date time = new Date();
+			
+			String today_year = tyear.format(time);
+			String today_month = tmonth.format(time);
+			String today_date = tdate.format(time);
+
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				String url="jdbc:mysql://localhost/yumyum1";
+				conn=DriverManager.getConnection(url,"gogi1","2209");
+				sql = "insert into maechul_1(m_year,m_month,m_date,product,count,price) values (?,?,?,?,?,?)";
+				pstmt=conn.prepareStatement(sql);
+				
+				for(int i=0;i<menuTable.getRowCount();i++) {
+					pstmt.setInt(1, Integer.parseInt(today_year));
+					pstmt.setInt(2, Integer.parseInt(today_month));
+					pstmt.setInt(3, Integer.parseInt(today_date));
+					//name
+					pstmt.setString(4, String.valueOf(menuTable.getValueAt(i, 0)));
+					//count
+					int countMenu=Integer.parseInt(String.valueOf(menuTable.getValueAt(i, 1)));
+					pstmt.setInt(5,countMenu);
+					//price
+					int priceMenu=Integer.parseInt(String.valueOf(menuTable.getValueAt(i, 2)));
+					int originP=priceMenu/countMenu;
+					pstmt.setInt(6,originP);
+					pstmt.executeUpdate();
+				}
+			}catch(ClassNotFoundException e) {
+				System.out.println("드라이버로딩실패");
+			}catch(SQLException e) {
+				System.out.println("에러: "+e);
+			}finally {
+				try{
+					if(conn!=null && !conn.isClosed()) {
+						conn.close();
+					}
+					if(pstmt!=null) try {pstmt.close();} catch(SQLException se) {}
+				}catch(SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
 		
 		//디비 비워주기
 		public void del(String table_num) {
