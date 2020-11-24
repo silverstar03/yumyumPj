@@ -130,7 +130,6 @@ public class Pay extends JFrame implements ActionListener{
 		setTitle("계산");
 		setSize(936,652);
 		setLocationRelativeTo(null); //창이 가운데에서 실행
-//		tm.setVisible(false);
 		paying(tm,table_num);
 		setResizable(false);
 		setVisible(true);
