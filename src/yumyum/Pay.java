@@ -17,7 +17,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -27,6 +29,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 import yumyum.Table_main;
@@ -121,6 +126,7 @@ public class Pay extends JFrame implements ActionListener{
 	OrderMenu mm;
 	
 	public Pay(Table_main tm,String table_num) {
+		changeAllSwingComponentDefaultFont();
 		setTitle("계산");
 		setSize(936,652);
 		setLocationRelativeTo(null); //창이 가운데에서 실행
@@ -133,6 +139,7 @@ public class Pay extends JFrame implements ActionListener{
 	public void paying(Table_main tm,String table_num) {
 		mainP=new JPanel();
 		mainP.setLayout(null);
+		mainP.setBackground(new Color(242,241,241));
 		titleL=new JLabel(table_num+" 결제하기");
 		titleL.setFont(new Font("나눔바른고딕",Font.PLAIN,29));
 		titleL.setBounds(330,2,220,60);
@@ -141,7 +148,7 @@ public class Pay extends JFrame implements ActionListener{
 		//주문내역 나오도록 
 		orderP=new JPanel();
 		orderP.setBounds(20, 63, 430, 260);
-		orderP.setBackground(Color.WHITE);
+		orderP.setBackground(new Color(243, 237, 230));
 		orderP.setLayout(null);
 		model=new DefaultTableModel(header,0);
 		model.setColumnCount(3);
@@ -149,11 +156,11 @@ public class Pay extends JFrame implements ActionListener{
 		menuPane=new JScrollPane(menuTable);
 		menuPane.setBounds(0, 0, 430, 260);
 		menuPane.getViewport().setBackground(Color.WHITE);
-		//connect();
+		
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				String url="jdbc:mysql://localhost/yumyum1";
-				conn=DriverManager.getConnection(url,"gogi1","2209");
+				conn=DriverManager.getConnection(url,"gogi1","2203");
 				if(table_num.equals("테이블 1")) {
 					sql = "select * from table_1";
 					pstmt=conn.prepareStatement(sql);
@@ -173,8 +180,6 @@ public class Pay extends JFrame implements ActionListener{
 						}						
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
-						System.out.println(menu_name+", "+count+", "+price);
-						System.out.println("총액: "+totalPrice);
 					}
 
 				}else if(table_num.equals("테이블 2")) {
@@ -193,7 +198,6 @@ public class Pay extends JFrame implements ActionListener{
 						}
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
-						System.out.println("테이블2 >> "+menu_name+", "+count+", "+price);
 					}
 				}else if(table_num.equals("테이블 3")) {
 					sql = "select * from table_3";
@@ -211,7 +215,6 @@ public class Pay extends JFrame implements ActionListener{
 						}
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
-						System.out.println("테이블3 >> "+menu_name+", "+count+", "+price);
 					}
 				}else if(table_num.equals("테이블 4")) {
 					sql = "select * from table_4";
@@ -229,7 +232,6 @@ public class Pay extends JFrame implements ActionListener{
 						}
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
-						System.out.println("테이블4>> "+menu_name+", "+count+", "+price);
 					}
 				}else if(table_num.equals("테이블 5")) {
 					sql = "select * from table_5";
@@ -247,7 +249,6 @@ public class Pay extends JFrame implements ActionListener{
 						}
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
-						System.out.println("테이블5 >> "+menu_name+", "+count+", "+price);
 					}
 				}else if(table_num.equals("테이블 6")) {
 					sql = "select * from table_6";
@@ -266,7 +267,6 @@ public class Pay extends JFrame implements ActionListener{
 						Object data[]= {menu_name,count,price};
 						
 						model.addRow(data);
-						System.out.println("테이블6 >> "+menu_name+", "+count+", "+price);
 					}
 				}else if(table_num.equals("테이블 7")) {
 					sql = "select * from table_7";
@@ -284,7 +284,6 @@ public class Pay extends JFrame implements ActionListener{
 						}	
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
-						System.out.println("테이블7 >> "+menu_name+", "+count+", "+price);
 					}
 				}else if(table_num.equals("테이블 8")) {
 					sql = "select * from table_8";
@@ -302,7 +301,6 @@ public class Pay extends JFrame implements ActionListener{
 						}
 						Object data[]= {menu_name,count,price};
 						model.addRow(data);
-						System.out.println("테이블8 >> "+menu_name+", "+count+", "+price);
 					}
 				}
 			}catch(Exception se){
@@ -390,9 +388,12 @@ public class Pay extends JFrame implements ActionListener{
 		
 		cashPay = new JButton("결제");
 		cashPay.setBounds(290,42,110,137);
+		cashPay.setBackground(new Color(184, 195, 189));
+		cashPay.setBorderPainted(false);
 		cashPay.setVisible(false);
 		
 		cardPay = new JButton("결제");
+		cardPay.setBackground(new Color(184, 195, 189));
 		cardPay.setBounds(290,42,110,137);
 		cardPay.setVisible(false);
 		//현금결제 다이얼로그
@@ -410,6 +411,8 @@ public class Pay extends JFrame implements ActionListener{
 		
 		//현금결제버튼
 		cashBtn = new JButton("현금 결제");
+		cashBtn.setBackground(new Color(214, 164, 149));
+		cashBtn.setBackground(new Color(214, 164, 149));
 		cashBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				payLabel.setText("[현금결제]");
@@ -460,6 +463,8 @@ public class Pay extends JFrame implements ActionListener{
 		
 		//카드결제 버튼
 		cardBtn=new JButton("카드 결제");
+		cardBtn.setBackground(new Color(214, 164, 149));
+		cardBtn.setBorderPainted(false);
 		cardBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				payLabel.setText("[카드결제]");
@@ -528,6 +533,40 @@ public class Pay extends JFrame implements ActionListener{
 		num0=new JButton("0");
 		num00=new JButton("00");
 		clear = new JButton("C");
+		
+		num0.setBackground(new Color(233, 220, 216));
+		num0.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		num1.setBackground(new Color(233, 220, 216));
+		num1.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		num2.setBackground(new Color(233, 220, 216));
+		num2.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		num3.setBackground(new Color(233, 220, 216));
+		num3.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		
+		num4.setBackground(new Color(233, 220, 216));
+		num4.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		
+		num5.setBackground(new Color(233, 220, 216));
+		num5.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		
+		num6.setBackground(new Color(233, 220, 216));
+		num6.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		
+		num7.setBackground(new Color(233, 220, 216));
+		num7.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		
+		num8.setBackground(new Color(233, 220, 216));
+		num8.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		
+		num9.setBackground(new Color(233, 220, 216));
+		num9.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		
+		num00.setBackground(new Color(233, 220, 216));
+		num00.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		
+		clear.setBackground(new Color(233, 220, 216));
+		clear.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		
 		numbers.add(num7); numbers.add(num8); numbers.add(num9); numbers.add(num4); 
 		numbers.add(num5); numbers.add(num6);numbers.add(num1); numbers.add(num2);
 		numbers.add(num3); numbers.add(num0);numbers.add(num00); numbers.add(clear);
@@ -635,8 +674,8 @@ public class Pay extends JFrame implements ActionListener{
 			}
 			
 		}
-		//매출디비에 넣어주기
 		
+		//매출디비에 넣어주기
 		public void addToMaechul() {
 			SimpleDateFormat tyear = new SimpleDateFormat ( "yyyy");
 			SimpleDateFormat tmonth = new SimpleDateFormat ( "MM");
@@ -651,7 +690,7 @@ public class Pay extends JFrame implements ActionListener{
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				String url="jdbc:mysql://localhost/yumyum1";
-				conn=DriverManager.getConnection(url,"gogi1","2209");
+				conn=DriverManager.getConnection(url,"gogi1","2203");
 				sql = "insert into maechul_1(m_year,m_month,m_date,product,count,price) values (?,?,?,?,?,?)";
 				pstmt=conn.prepareStatement(sql);
 				
@@ -686,12 +725,29 @@ public class Pay extends JFrame implements ActionListener{
 			}
 		}
 		
+		//전체폰트설정
+		private void changeAllSwingComponentDefaultFont() {
+			    try {
+			         UIDefaults swingComponentDefaultTable = UIManager.getDefaults();
+			         Enumeration allDefaultKey = swingComponentDefaultTable.keys();
+			         while(allDefaultKey.hasMoreElements()) {
+			              String defaultKey = allDefaultKey.nextElement().toString();
+			              if(defaultKey.indexOf("font") != -1) {
+			                   Font newDefaultFont = new Font("나눔바른고딕", Font.PLAIN, 14);
+			                   UIManager.put(defaultKey, newDefaultFont);
+			               }
+			        }
+			   } catch (Exception e) {
+			      e.printStackTrace();
+			   }
+		}
+		
 		//디비 비워주기
 		public void del(String table_num) {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				String url="jdbc:mysql://localhost/yumyum1";
-				conn=DriverManager.getConnection(url,"gogi1","2209");
+				conn=DriverManager.getConnection(url,"gogi1","2203");
 				switch (table_num) {
 				case "테이블 1": sql="truncate table_1;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
 				case "테이블 2": sql="truncate table_2;"; pstmt=conn.prepareStatement(sql); pstmt.executeUpdate(sql);break;
@@ -717,6 +773,8 @@ public class Pay extends JFrame implements ActionListener{
 				}
 			}
 		}
+		
+		
 
 	
 	class numberListener implements ActionListener{
@@ -792,6 +850,8 @@ public class Pay extends JFrame implements ActionListener{
 				instalmenttf.setText("");
 			}
 		}
+		
+		
 	} //end of class
 	
 	class okBtnListener implements ActionListener{

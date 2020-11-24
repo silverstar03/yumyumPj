@@ -1,5 +1,6 @@
 package yumyum;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import java.awt.event.ActionEvent;
@@ -7,12 +8,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Enumeration;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 
 import yumyum.OrderMenu;
 import yumyum.Pay;
@@ -70,8 +75,12 @@ public class Table_main extends JFrame {
 		
 		jp=new JPanel();
 		jp.setLayout(null);
-				
+		jp.setBackground(new Color(242,241,241));
+		
 		table1 = new JButton("테이블 1");
+		table1.setFont(new Font("나눔바른고딕",Font.PLAIN,15));
+		table1.setBackground(new Color(231, 225, 219));
+		
 		table1.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
@@ -86,6 +95,9 @@ public class Table_main extends JFrame {
 		table1.setBounds(29, 47, 147, 127);
 				
 		table2 = new JButton("테이블 2");
+		table2.setFont(new Font("나눔바른고딕",Font.PLAIN,15));
+		table2.setBackground(new Color(231, 225, 219));
+		
 		table2.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
@@ -100,6 +112,8 @@ public class Table_main extends JFrame {
 		table2.setBounds(215, 47, 147, 127);
 		
 		table3 = new JButton("테이블 3");
+		table3.setFont(new Font("나눔바른고딕",Font.PLAIN,15));
+		table3.setBackground(new Color(231, 225, 219));
 		table3.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
@@ -114,6 +128,9 @@ public class Table_main extends JFrame {
 		table3.setBounds(397, 47, 147, 127);
 		
 		table4 = new JButton("테이블 4");
+		table4.setFont(new Font("나눔바른고딕",Font.PLAIN,15));
+		table4.setBackground(new Color(231, 225, 219));
+		
 		table4.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
@@ -128,6 +145,8 @@ public class Table_main extends JFrame {
 		table4.setBounds(582, 47, 147, 127);
 		
 		table5 = new JButton("테이블 5");
+		table5.setFont(new Font("나눔바른고딕",Font.PLAIN,15));
+		table5.setBackground(new Color(231, 225, 219));
 		table5.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
@@ -142,6 +161,8 @@ public class Table_main extends JFrame {
 		table5.setBounds(29, 247, 147, 127);
 		
 		table6 = new JButton("테이블 6");
+		table6.setFont(new Font("나눔바른고딕",Font.PLAIN,15));
+		table6.setBackground(new Color(231, 225, 219));
 		table6.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
@@ -156,6 +177,8 @@ public class Table_main extends JFrame {
 		table6.setBounds(215, 247, 147, 127);
 
 		table7 = new JButton("테이블 7");
+		table7.setFont(new Font("나눔바른고딕",Font.PLAIN,15));
+		table7.setBackground(new Color(231, 225, 219));
 		table7.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
@@ -170,6 +193,8 @@ public class Table_main extends JFrame {
 		table7.setBounds(397, 247, 147, 127);
 		
 		table8 = new JButton("테이블 8");
+		table8.setFont(new Font("나눔바른고딕",Font.PLAIN,15));
+		table8.setBackground(new Color(231, 225, 219));
 		table8.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
@@ -184,6 +209,8 @@ public class Table_main extends JFrame {
 		table8.setBounds(582, 247, 147, 127);
 
 		check_maechul = new JButton("매출확인");
+		check_maechul.setBackground(new Color(213, 218, 214));
+		check_maechul.setFont(new Font("나눔바른고딕",Font.PLAIN,15));
 		check_maechul.setBounds(609, 410, 120, 37);
 		check_maechul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -193,6 +220,8 @@ public class Table_main extends JFrame {
 				
 		//프로그램 종료 확인하는 dialog
 		LogOut=new JButton("프로그램 종료");
+		LogOut.setBackground(new Color(213, 218, 214));
+		LogOut.setFont(new Font("나눔바른고딕",Font.PLAIN,15));
 		LogOut.setBounds(480, 410, 120, 37);
 				
 				
@@ -211,9 +240,13 @@ public class Table_main extends JFrame {
 		answer.setFont(new Font("나눔바른고딕",Font.PLAIN,17));
 				
 		yes=new JButton("Yes");
+		yes.setBackground(new Color(223, 228, 220));
 		yes.setBounds(39, 95, 115, 35);
+		
 		no = new JButton("No");
+		no.setBackground(new Color(223, 228, 220));
 		no.setBounds(160, 95, 115, 35);
+		
 		checkOut.add(answer);
 		checkOut.add(yes);
 		checkOut.add(no);
@@ -221,6 +254,23 @@ public class Table_main extends JFrame {
 		LogOut.addActionListener(new OutActionListener());
 				//Dialog끝				
 		setVisible(true);
+	}
+	
+	//전체폰트설정
+	private void changeAllSwingComponentDefaultFont() {
+		try {
+			UIDefaults swingComponentDefaultTable = UIManager.getDefaults();
+			Enumeration allDefaultKey = swingComponentDefaultTable.keys();
+			while(allDefaultKey.hasMoreElements()) {
+				 String defaultKey = allDefaultKey.nextElement().toString();
+				 if(defaultKey.indexOf("font") != -1) {
+				      Font newDefaultFont = new Font("나눔바른고딕", Font.PLAIN, 14);
+				      UIManager.put(defaultKey, newDefaultFont);
+				  }
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	
