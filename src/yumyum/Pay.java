@@ -1,10 +1,5 @@
 package yumyum;
-//해야될것 
-//1.결제취소 누르면 결제 취소되기 
-//2.결제 완료 누르면 매출 디비에 올라가기 => 월매출, 메뉴별 매출
-//4.복합계산 => 현금결제,카드 결제 완성 후 구현하기
-//결제 완벽하게 해놓기 /컸을때 작았을 때 같을때
-//중간디비 비워줄 때 TRUNCATE table_n 하면 될 듯
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -638,8 +633,6 @@ public class Pay extends JFrame implements ActionListener{
 		public void calculate(Table_main tm,String table_num) {
 			//결제해야하는 총액
 			total=Integer.parseInt(giveMoneytf.getText().trim()); //52000
-			System.out.println("총금액: "+total);
-			//수정필요  다시 눌렀을 경우 하나씩 지워지는 버튼도 필요
 			//받은 돈
 			getMoney=Integer.parseInt(getMoneytf.getText().trim()); //trim사용하여 앞뒤 공백 제거
 			
@@ -668,7 +661,6 @@ public class Pay extends JFrame implements ActionListener{
 				giveMoneytf.setText(Integer.toString(giveMoney)); 
 				getMoney_m_tf.setText(Integer.toString(getMoney)); //받은 금액 => 내가 방금 받은 돈
 				total=Integer.parseInt(giveMoneytf.getText().trim());
-				System.out.println("돈을 더 입력해야됩니다.");
 				getMoneytf.setText("");
 			}
 			
@@ -881,6 +873,7 @@ public class Pay extends JFrame implements ActionListener{
 
 	}
 
+	//implement actionlistener로 인해 자동 생성
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

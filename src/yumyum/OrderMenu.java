@@ -67,7 +67,6 @@ public class OrderMenu extends JFrame {
 			"맥주","청하","막걸리",}
 		};
 	
-//	private int row;	//주문 취소할 행
 	private int num = 0;	//메뉴 카테고리 인덱스 받아오는 변수
 	private int sumprice = 0;	//각 메뉴의 총 가격
 	private int totalprice = 0;	//전체 가격
