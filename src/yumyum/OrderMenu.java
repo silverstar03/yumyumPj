@@ -303,9 +303,9 @@ public class OrderMenu extends JFrame {
 		
 		orderBtn.setBounds(2, 386, 240, 60);
 		cancelBtn.setBounds(243,386, 240, 60);
-		before.setBounds(2, 550, 100, 30);
-		payBtn.setBounds(104, 550, 100, 30);
-
+		before.setBounds(4, 520, 100, 40);
+		payBtn.setBounds(108, 520, 100, 40);
+		
 		print_panel.add(orderBtn);
 		print_panel.add(cancelBtn);
 		print_panel.add(before);

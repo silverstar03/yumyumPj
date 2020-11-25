@@ -75,11 +75,12 @@ public class Table_main extends JFrame {
 		
 		jp=new JPanel();
 		jp.setLayout(null);
-		jp.setBackground(new Color(242,241,241));
+		//jp.setBackground(new Color(235, 227, 209));
+		jp.setBackground(new Color(212,193,174));
 		
 		table1 = new JButton("Å×ÀÌºí 1");
 		table1.setFont(new Font("³ª´®¹Ù¸¥°íµñ",Font.PLAIN,15));
-		table1.setBackground(new Color(231, 225, 219));
+		table1.setBackground(new Color(242,241,241));
 		
 		table1.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -96,7 +97,7 @@ public class Table_main extends JFrame {
 				
 		table2 = new JButton("Å×ÀÌºí 2");
 		table2.setFont(new Font("³ª´®¹Ù¸¥°íµñ",Font.PLAIN,15));
-		table2.setBackground(new Color(231, 225, 219));
+		table2.setBackground(new Color(242,241,241));
 		
 		table2.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -113,7 +114,7 @@ public class Table_main extends JFrame {
 		
 		table3 = new JButton("Å×ÀÌºí 3");
 		table3.setFont(new Font("³ª´®¹Ù¸¥°íµñ",Font.PLAIN,15));
-		table3.setBackground(new Color(231, 225, 219));
+		table3.setBackground(new Color(242,241,241));
 		table3.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
@@ -129,7 +130,7 @@ public class Table_main extends JFrame {
 		
 		table4 = new JButton("Å×ÀÌºí 4");
 		table4.setFont(new Font("³ª´®¹Ù¸¥°íµñ",Font.PLAIN,15));
-		table4.setBackground(new Color(231, 225, 219));
+		table4.setBackground(new Color(242,241,241));
 		
 		table4.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -146,7 +147,7 @@ public class Table_main extends JFrame {
 		
 		table5 = new JButton("Å×ÀÌºí 5");
 		table5.setFont(new Font("³ª´®¹Ù¸¥°íµñ",Font.PLAIN,15));
-		table5.setBackground(new Color(231, 225, 219));
+		table5.setBackground(new Color(242,241,241));
 		table5.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
@@ -162,7 +163,7 @@ public class Table_main extends JFrame {
 		
 		table6 = new JButton("Å×ÀÌºí 6");
 		table6.setFont(new Font("³ª´®¹Ù¸¥°íµñ",Font.PLAIN,15));
-		table6.setBackground(new Color(231, 225, 219));
+		table6.setBackground(new Color(242,241,241));
 		table6.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
@@ -178,7 +179,7 @@ public class Table_main extends JFrame {
 
 		table7 = new JButton("Å×ÀÌºí 7");
 		table7.setFont(new Font("³ª´®¹Ù¸¥°íµñ",Font.PLAIN,15));
-		table7.setBackground(new Color(231, 225, 219));
+		table7.setBackground(new Color(242,241,241));
 		table7.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
@@ -194,7 +195,7 @@ public class Table_main extends JFrame {
 		
 		table8 = new JButton("Å×ÀÌºí 8");
 		table8.setFont(new Font("³ª´®¹Ù¸¥°íµñ",Font.PLAIN,15));
-		table8.setBackground(new Color(231, 225, 219));
+		table8.setBackground(new Color(242,241,241));
 		table8.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
