@@ -99,10 +99,10 @@ public class OrderMenu extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);	//창크기 조절 X
 		getContentPane().setLayout(null); 	//자유롭게 위치 조정 가능
-		getContentPane().setBackground(new Color(249, 228, 183));
+		getContentPane().setBackground(new Color(242,241,241)); //이부분 신수민이 수정
 		
 		title_label = new JLabel("주문 등록");
-		title_label.setFont(new Font("나눔바른고딕", Font.PLAIN, 40));
+		title_label.setFont(new Font("나눔바른고딕", Font.PLAIN, 30));
 		title_label.setBounds(448, 2, 187, 60);
 		add(title_label);
 				
@@ -173,7 +173,7 @@ public class OrderMenu extends JFrame {
 		print_panel = new JPanel();
 		print_panel.setBounds(0, 71, 486, 582);
 		print_panel.setLayout(null);
-		print_panel.setBackground(new Color(249, 228, 183));
+		print_panel.setBackground(new Color(242,241,241)); //이부분 신수민이 수정
 		
 		list.add("메뉴");
 		list.add("개수");
