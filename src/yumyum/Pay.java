@@ -133,7 +133,7 @@ public class Pay extends JFrame implements ActionListener{
 	public void paying(Table_main tm,String table_num) {
 		mainP=new JPanel();
 		mainP.setLayout(null);
-		mainP.setBackground(new Color(242,241,241));
+		mainP.setBackground(new Color(245,235,220));
 		titleL=new JLabel(table_num+" 결제하기");
 		titleL.setFont(new Font("나눔바른고딕",Font.PLAIN,29));
 		titleL.setBounds(330,2,220,60);
@@ -144,7 +144,11 @@ public class Pay extends JFrame implements ActionListener{
 		orderP.setBounds(20, 63, 430, 260);
 		orderP.setBackground(new Color(243, 237, 230));
 		orderP.setLayout(null);
-		model=new DefaultTableModel(header,0);
+		model = new DefaultTableModel(header, 0) {
+			public boolean isCellEditable(int i, int c) {//테이블 더블 클릭시 수정 불가
+				return false;
+			}
+		};
 		model.setColumnCount(3);
 		menuTable=new JTable(model);
 		menuPane=new JScrollPane(menuTable);
@@ -389,6 +393,7 @@ public class Pay extends JFrame implements ActionListener{
 		cardPay = new JButton("결제");
 		cardPay.setBackground(new Color(184, 195, 189));
 		cardPay.setBounds(290,42,110,137);
+		cardPay.setBorderPainted(false);
 		cardPay.setVisible(false);
 		//현금결제 다이얼로그
 		
@@ -406,7 +411,7 @@ public class Pay extends JFrame implements ActionListener{
 		//현금결제버튼
 		cashBtn = new JButton("현금 결제");
 		cashBtn.setBackground(new Color(214, 164, 149));
-		cashBtn.setBackground(new Color(214, 164, 149));
+		cashBtn.setBorderPainted(false);
 		cashBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				payLabel.setText("[현금결제]");

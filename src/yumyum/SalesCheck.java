@@ -28,8 +28,6 @@ import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
-
-
 public class SalesCheck extends JFrame{
 	
 	private JPanel showMae;
@@ -77,7 +75,7 @@ public class SalesCheck extends JFrame{
 		setLocationRelativeTo(null);
 		setResizable(false);
 		getContentPane().setLayout(null); 	//자유롭게 위치 조정 가능
-		setBackground(new Color(231, 230, 230));
+		getContentPane().setBackground(new Color(245,235,220));
 		changeAllSwingComponentDefaultFont();
 		setting(tm);
 	}
@@ -101,6 +99,7 @@ public class SalesCheck extends JFrame{
 		
 		previous.setBackground(new Color(214, 164, 149));
 		previous.setBounds(20,12,96,56);
+		previous.setBorderPainted(false);
 		
 		previous.addActionListener(new ActionListener() {
 			
@@ -222,26 +221,35 @@ public class SalesCheck extends JFrame{
 		show_btn = new JButton("매출보기");
 		sp.add(show_btn);
 		show_btn.setVisible(false);
+		show_btn.setBackground(new Color(213, 218, 214));
 		
 		
 		total_btn=new JButton("전체 매출");
 		sp.add(total_btn);
 		total_btn.setVisible(false);
+		total_btn.setBackground(new Color(213, 218, 214));
 
 		show_btn_m = new JButton("매출보기");
 		show_btn_m.setVisible(false);
+		show_btn_m.setBackground(new Color(213, 218, 214));
 		sp.add(show_btn_m);
 		total_btn_m=new JButton("전체 매출");
 		total_btn_m.setVisible(false);
+		total_btn_m.setBackground(new Color(213, 218, 214));
 		sp.add(total_btn_m);
 		
 		
 		// 디비에서 가져온 값을 출력해줘라
-		model=new DefaultTableModel(header,0);
+		model = new DefaultTableModel(header, 0) {
+			public boolean isCellEditable(int i, int c) {//테이블 더블 클릭시 수정 불가
+				return false;
+			}
+		};
 		model.setColumnCount(3);
 		menuTable=new JTable(model);
+		menuTable.setRowHeight(20);
 		menuPane=new JScrollPane(menuTable);
-		menuPane.setBounds(20, 41, 426, 379);
+		menuPane.setBounds(5, 5, 450, 420);
 		menuPane.getViewport().setBackground(Color.WHITE);
 		showMae.add(menuPane);
 		
