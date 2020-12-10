@@ -676,6 +676,7 @@ public class OrderMenu extends JFrame {
 		result += finalprice + "원";
 		result += "</html>";
 		
+		//디비에 주문한 메뉴 정보들을 넣어줌
 		try {
 			Class.forName("com.mysql.jdbc.Driver");	//공동으로 써야하는 코드
 			String url = "jdbc:mysql://localhost/yumyum1";
