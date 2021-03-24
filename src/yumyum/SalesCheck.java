@@ -131,7 +131,7 @@ public class SalesCheck extends JFrame{
 		sp.setLayout(null);
 		
 		//³â
-		String[] years=new String[]{"2020"};
+		String[] years=new String[]{"2020", "2021"};
 		
 		//´Þ
 		String [] months = new String[12];
